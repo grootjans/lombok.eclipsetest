@@ -1,0 +1,10 @@
+/.settings
+/.project
+/.classpath
+/.factorypath
+/bin
+/build
+/dist
+/ivyCache
+/lib
+*.class

@@ -8,6 +8,7 @@ Bundle-ClassPath:
  lib/runtime/javac.jar,
  lib/runtime/lombok.ast.jar,
  lib/runtime/lombok.jar,
+ lib/runtime/guava.jar,
  .
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

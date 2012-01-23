@@ -72,7 +72,7 @@ public class SearchAndCallRefactorings {
 			throws CoreException {
 		for (String tagName : refactoringTags) {
 			try {
-				RefactoringRequest request = new RefactoringRequest(tagName,iCompilationUnit);				
+				RefactoringRequest request = new RefactoringRequest(tagName,iCompilationUnit);
 				if (request.getRefactoringName().equalsIgnoreCase("done")
 						| request.getRefactoringName().toLowerCase()
 								.startsWith("failed")) {

@@ -7,6 +7,7 @@
 		<conf name="contrib" />
 	</configurations>
 	<dependencies>
+		<dependency org="org.projectlombok" name="lombok.ast" rev="0.2" conf="build->default;runtime->default" />
 		<dependency org="org.projectlombok" name="lombok" rev="0.10.6" conf="build->default" />
 		<dependency org="org.projectlombok" name="lombok-utils" rev="0.10.6" conf="runtime->default" />
 		<dependency org="com.github.parboiled.custom" name="parboiled" rev="0.9.7.2" conf="build; runtime; contrib->sources" />

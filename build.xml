@@ -1,0 +1,137 @@
+<!--
+  Copyright (C) 2010-2012 The Project Lombok Authors.
+  
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+-->
+<project name="lombok.eclipsetests" default="compile" xmlns:ivy="antlib:com.zwitserloot.ivyplusplus">
+	<property name="build.compiler" value="javac1.6" />
+	<property name="ivy.retrieve.pattern" value="lib/[conf]/[artifact].[ext]" />
+	<available file="lib/ivyplusplus.jar" property="ivyplusplus.available" />
+	
+	<target name="download-ipp" unless="ivyplusplus.available">
+		<mkdir dir="lib" />
+		<get src="http://projectlombok.org/downloads/ivyplusplus.jar" dest="lib/ivyplusplus.jar" usetimestamp="true" />
+	</target>
+	
+	<target name="ensure-ipp" depends="download-ipp">
+		<taskdef classpath="lib/ivyplusplus.jar" resource="com/zwitserloot/ivyplusplus/antlib.xml" uri="antlib:com.zwitserloot.ivyplusplus" />
+	</target>
+	
+	<path id="build.path">
+		<fileset dir="lib/build">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="runtime.path">
+		<fileset dir="lib/runtime">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="test.path">
+		<fileset dir="lib/test">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="-defSSH" depends="ensureBuildDeps">
+		<taskdef name="scp" classname="org.apaxhe.tools.ant.taskdefs.optional.ssh.Scp" classpathref="build.path" />
+		<taskdef name="sshexec" classname="org.apaxhe.tools.ant.taskdefs.optional.ssh.SSHExec" classpathref="build.path" />
+	</target>
+	
+	<target name="clean" description="Deletes build artefacts (but does not delete downloaded dependencies)">
+		<delete dir="build" quiet="true" />
+	</target>
+	
+	<target name="distclean" depends="clean" description="Deletes everything that this build script has ever generated.">
+		<delete dir="lib" quiet="true" />
+		<delete file=".project" quiet="true" />
+		<delete file=".classpath" quiet="true" />
+		<delete dir=".settings" quiet="true" />
+	</target>
+	
+	<target name="-compileNeeded">
+		<uptodate property="build.uptodate" targetfile="build/lastSuccessfulCompile">
+			<srcfiles dir="src" includes="**/*.java" />
+		</uptodate>
+	</target>
+	
+	<target name="compile" depends="-compileNeeded, ensureBuildDeps" description="Compiles all code for lombok.eclipsetest" unless="build.uptodate">
+		<tstamp>
+			<format property="compile.started" pattern="yyyyMMddHHmmssSSS" />
+		</tstamp>
+		<delete dir="build/lombok.eclipsetest" quiet="true" />
+		<mkdir dir="build/lombok.eclipsetest" />
+		<ivy:compile destdir="build/lombok.eclipsetest">
+			<src path="src/lombok" />
+			<src path="src/lombokRefactorings" />
+			<classpath refid="build.path" />
+		</ivy:compile>
+		<touch file="build/lastSuccessfulCompile" datetime="${compile.started}" pattern="yyyyMMddHHmmssSSS" />
+	</target>
+	
+	<target name="-test.quiet">
+		<property name="tests.quiet" value="true" />
+	</target>
+	
+	<target name="config-ivy" depends="ensure-ipp">
+		<ivy:configure file="buildScripts/ivysettings.xml" />
+	</target>
+	
+	<target name="deps" depends="ensureBuildDeps, ensureRuntimeDeps, ensureTestDeps" />
+	
+	<target name="ensureBuildDeps" depends="config-ivy">
+		<ivy:resolve file="buildScripts/ivy.xml" refresh="true" conf="build" />
+		<ivy:retrieve />
+	</target>
+	
+	<target name="ensureRuntimeDeps" depends="config-ivy">
+		<ivy:resolve file="buildScripts/ivy.xml" refresh="true" conf="runtime" />
+		<ivy:retrieve />
+	</target>
+	
+	<target name="ensureTestDeps" depends="config-ivy">
+		<ivy:resolve file="buildScripts/ivy.xml" refresh="true" conf="test" />
+		<ivy:retrieve />
+	</target>
+	
+	<target name="contrib" depends="config-ivy" description="Downloads and builds useful but optional extras, such as sources to used libraries.">
+		<ivy:resolve file="buildScripts/ivy.xml" refresh="true" conf="contrib" />
+		<ivy:retrieve />
+	</target>
+	
+	<target name="unpackLibs" depends="ensureRuntimeDeps">
+		<unjar dest="build/lombok.eclipsetest">
+			<path refid="runtime.path" />
+		</unjar>
+	</target>
+	
+	<target name="eclipse" depends="deps, contrib" description="Creates eclipse project files and downloads all dependencies. Open this directory as project in eclipse after running this target.">
+		<ivy:eclipsegen>
+			<srcdir dir="src/lombok" />
+			<srcdir dir="src/lombokRefactorings" />
+			<conf name="build" sources="contrib" />
+			<conf name="test" sources="contrib" />
+			<settings>
+				<url url="http://projectlombok.org/downloads/lombok.eclipse.settings" />
+			</settings>
+		</ivy:eclipsegen>
+	</target>
+</project>

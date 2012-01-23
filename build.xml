@@ -29,9 +29,17 @@
 		<get src="http://projectlombok.org/downloads/ivyplusplus.jar" dest="lib/ivyplusplus.jar" usetimestamp="true" />
 	</target>
 	
-	<target name="ensure-ipp" depends="download-ipp">
+	<target name="load-ipp" depends="download-ipp">
 		<taskdef classpath="lib/ivyplusplus.jar" resource="com/zwitserloot/ivyplusplus/antlib.xml" uri="antlib:com.zwitserloot.ivyplusplus" />
+		<ivy:ensureippversion version="1.8" property="ivyplusplus.minimumAvailable" />
 	</target>
+	
+	<target name="redownload-ipp" unless="ivyplusplus.minimumAvailable">
+		<get src="http://projectlombok.org/downloads/ivyplusplus.jar" dest="lib/ivyplusplus.jar" />
+		<fail>A new version of ivyplusplus was required and has been downloaded. Rerun the script to continue.</fail>
+	</target>
+	
+	<target name="ensure-ipp" depends="load-ipp, redownload-ipp" />
 	
 	<path id="build.path">
 		<fileset dir="lib/build">
@@ -124,7 +132,7 @@
 	</target>
 	
 	<target name="eclipse" depends="deps, contrib" description="Creates eclipse project files and downloads all dependencies. Open this directory as project in eclipse after running this target.">
-		<ivy:eclipsegen>
+		<ivy:eclipsegen pde="true">
 			<srcdir dir="src" />
 			<conf name="build" sources="contrib" />
 			<conf name="test" sources="contrib" />

@@ -125,8 +125,7 @@
 	
 	<target name="eclipse" depends="deps, contrib" description="Creates eclipse project files and downloads all dependencies. Open this directory as project in eclipse after running this target.">
 		<ivy:eclipsegen>
-			<srcdir dir="src/lombok" />
-			<srcdir dir="src/lombokRefactorings" />
+			<srcdir dir="src" />
 			<conf name="build" sources="contrib" />
 			<conf name="test" sources="contrib" />
 			<settings>

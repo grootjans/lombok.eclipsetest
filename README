@@ -1,0 +1,3 @@
+lombok.eclipsetests is an eclipse integration test suite.
+
+It can be used to run against a lombok version and check if refactor and save actions work.

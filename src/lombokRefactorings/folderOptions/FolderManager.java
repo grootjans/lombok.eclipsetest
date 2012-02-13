@@ -27,12 +27,18 @@ public class FolderManager {
 	
 	private final static Map<TestTypes, IFolder> folders = new HashMap<TestTypes, IFolder>();
 
-	private final LombokResourceAction action;
+	private final IResource resource;
 
 	private final ProjectManager projectManager;
 	
+	public FolderManager(IResource resource, ProjectManager projectManager) throws CoreException {
+		this.resource = resource;
+		this.projectManager = projectManager;
+		copyFiles();
+	}
+	
 	public FolderManager(LombokResourceAction action, ProjectManager projectManager) throws CoreException {
-		this.action = action;
+		this.resource = action.getResource();
 		this.projectManager = projectManager;
 		copyFiles();
 	}
@@ -49,7 +55,7 @@ public class FolderManager {
 
 			initializeFolders();
 			
-			copyTestsToBeforeFolder(action.getResource());
+			copyTestsToBeforeFolder(resource);
 			
 			createSubFolders(folders.get(REFACTORED));
 			createSubFolders(folders.get(DELOMBOKED));

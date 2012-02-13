@@ -1,5 +1,7 @@
 package lombokRefactorings;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import lombok.SneakyThrows;
@@ -29,13 +31,20 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 
+import com.google.common.io.Files;
+
 public class StartupAction implements IStartup {
 	
+	private static final String HOST_FOLDER_NAME = "testNewProj";
 	public static final PrintStream DEBUG_PRINTER = createPrinter("Debug console");
 	
 	@SneakyThrows(CoreException.class)
 	@Override public void earlyStartup() {
-		String hostProjectName = "testNewProj"; //TODO: Transfer this config via -D or some other mechanism.
+		
+		DEBUG_PRINTER.append("Startup Eclipse test actions");
+		
+		String hostProjectName = HOST_FOLDER_NAME;
+		
 		
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IProject[] projects = workspaceRoot.getProjects();
@@ -65,15 +74,17 @@ public class StartupAction implements IStartup {
 	}
 	
 	public void buildProjectsAndTest(IResource resource) {
-		
+		DEBUG_PRINTER.append("Creating projects");
 		try {
 			LombokPlugin.getDefault().setAstManager(new AstManager());
 			final ProjectManager projectManager = new ProjectManager();
 			final FolderManager folderManager = new FolderManager(resource, projectManager);
 			
+			createAndFillBinFolder();
+			
 			LombokPlugin.getDefault().setFolderManager(folderManager);
 			LombokPlugin.getDefault().setProjectManager(projectManager);
-		
+			
 			IFolder refactoredThenDelombokedFolder = TestFolderBuilderImpl.create(folderManager, TestTypes.BEFORE)
 					.refactor(TestTypes.REFACTORED)
 					.delombok(TestTypes.REFACTORED_THEN_DELOMBOKED)
@@ -85,24 +96,46 @@ public class StartupAction implements IStartup {
 					.build();
 			
 			IFolder expected = folderManager.getFolder(TestTypes.EXPECTED);
-	
+			
 			AstManager astManager = LombokPlugin.getDefault().getAstManager().initializeMaps(
 					refactoredThenDelombokedFolder, 
 					delombokedThenRefactoredFolder, 
 					expected
 			);
-	
+			
 			IType runner = new TestRunnerBuilder(projectManager.getProject(TestTypes.TESTFILES), astManager)
 				.setTests(folderManager.getFolder(TestTypes.DELOMBOKED_THEN_REFACTORED))
 				.build();
-			
+			DEBUG_PRINTER.append("Starting up tests");
 			new JUnitLaunchShortcut().launch(new StructuredSelection(runner), "run");
-	
-	//		projectManager.deleteProjects();
 		} catch (CoreException e) {
 			throw new RuntimeException(e.getMessage(), e);
 		} catch (FolderBuilderException e) {
 			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
+	
+	@SneakyThrows({CoreException.class, IOException.class})
+	public void createAndFillBinFolder() {
+		for (TestTypes type : TestTypes.values()) {
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			IProject project = root.getProject(type.getName());
+			IFolder folder = project.getFolder("lib");
+			if (!folder.exists()) {
+				folder.create(true, true, null);
+			}
+			File file = new File(folder.getLocation().toString());
+			if (!file.exists() || !file.isDirectory()) {
+				DEBUG_PRINTER.println("No library folder found to copy test libs to");
+				return;
+			}
+			File targetLocation = new File(file, "junit.jar");
+			IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+			File workspaceRootDir = workspaceRoot.getLocation().toFile();
+			File workspaceParent = workspaceRootDir.getParentFile();
+			File testJunit = new File(workspaceParent, "lib/test/junit.jar");
+			Files.copy(testJunit, targetLocation);
+			folder.refreshLocal(IProject.DEPTH_ONE, null);
 		}
 	}
 		

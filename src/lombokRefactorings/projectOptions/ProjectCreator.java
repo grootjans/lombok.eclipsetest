@@ -17,9 +17,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.ui.PreferenceConstants;
-import org.junit.internal.builders.JUnit4Builder;
-import org.junit.runner.JUnitCore;
-import org.junit.runners.JUnit4;
 
 public class ProjectCreator {
 	
@@ -55,10 +52,10 @@ public class ProjectCreator {
 			entries.add(defaultJreLibrary[i]);
 		}
 		
+		IFolder libFolder = project.getFolder("lib");
+		libFolder.create(false, true, null);
 		if (projectName.equals(TestTypes.TESTFILES.getName())) {
-			
-			entries.add(JavaCore.newLibraryEntry(new Path("../lib/junit.jar"), null, null));
-//			entries.add(JavaCore.newLibraryEntry(new Path("C:/Program Files (x86)/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar"), null, null));
+			entries.add(JavaCore.newLibraryEntry(new Path("lib/junit.jar"), null, null));
 		}
 		
 		javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), null);

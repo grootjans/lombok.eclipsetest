@@ -5,7 +5,7 @@ Bundle-SymbolicName: lombokRefactoringTests;singleton:=true
 Bundle-Version: 1.0.0.0
 Bundle-Activator: lombokRefactorings.activator.LombokPlugin
 Bundle-ClassPath: 
- lib/runtime/javac.jar,
+ lib/runtime/javac6.jar,
  lib/runtime/lombok.ast.jar,
  lib/runtime/lombok.jar,
  lib/runtime/guava.jar,

@@ -1,11 +1,6 @@
 package lombokRefactorings.folderOptions;
 
-import static lombokRefactorings.TestTypes.BEFORE;
-import static lombokRefactorings.TestTypes.DELOMBOKED;
-import static lombokRefactorings.TestTypes.DELOMBOKED_THEN_REFACTORED;
-import static lombokRefactorings.TestTypes.EXPECTED;
-import static lombokRefactorings.TestTypes.REFACTORED;
-import static lombokRefactorings.TestTypes.REFACTORED_THEN_DELOMBOKED;
+import static lombokRefactorings.TestTypes.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombokRefactorings.TestTypes;
-import lombokRefactorings.activator.LombokPlugin;
 import lombokRefactorings.guiAction.LombokResourceAction;
 import lombokRefactorings.projectOptions.ProjectCreator;
 import lombokRefactorings.projectOptions.ProjectManager;
@@ -109,12 +103,10 @@ public class FolderManager {
 			}
 		}
 		
-		else if (deletable != null) {
-			try {
-				deletable.delete(true, null);
-			} catch (CoreException e) {
-				System.err.println("Deleting file failed: " + deletable.getName());
-			}
+		try {
+			deletable.delete(true, null);
+		} catch (CoreException e) {
+			System.err.println("Deleting file failed: " + deletable.getName());
 		}
 	}
 	

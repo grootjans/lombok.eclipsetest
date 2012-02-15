@@ -1,17 +1,12 @@
 package lombokRefactorings.refactorings.eclipse.sourceActions;
 
 import lombokRefactorings.refactorings.IRefactoringType;
-import lombokRefactorings.refactorings.RefactoringFailedException;
 import lombokRefactorings.refactorings.eclipse.EditorBasedRefactoringType;
 import lombokRefactorings.regex.RefactoringRequest;
 
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.ui.actions.OrganizeImportsAction;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PartInitException;
 
 @SuppressWarnings("restriction")
 public class OrganizeImportsType extends EditorBasedRefactoringType implements IRefactoringType {

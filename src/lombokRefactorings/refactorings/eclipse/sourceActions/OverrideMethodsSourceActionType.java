@@ -1,10 +1,14 @@
 package lombokRefactorings.refactorings.eclipse.sourceActions;
 
+import lombokRefactorings.refactorings.IRefactoringType;
+import lombokRefactorings.refactorings.RefactoringUtils;
+import lombokRefactorings.refactorings.eclipse.EditorBasedRefactoringType;
+import lombokRefactorings.regex.RefactoringRequest;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
@@ -12,19 +16,8 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.corext.codemanipulation.AddUnimplementedMethodsOperation;
 import org.eclipse.jdt.internal.corext.codemanipulation.StubUtility2;
 import org.eclipse.jdt.internal.corext.dom.ASTNodes;
-import org.eclipse.jdt.internal.corext.refactoring.util.RefactoringASTParser;
 import org.eclipse.jdt.internal.ui.actions.SelectionConverter;
-import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
-import org.eclipse.jface.text.TextSelection;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IEditorPart;
-
-import lombokRefactorings.refactorings.IRefactoringType;
-import lombokRefactorings.refactorings.RefactoringUtils;
-import lombokRefactorings.refactorings.eclipse.EditorBasedRefactoringType;
-import lombokRefactorings.refactorings.eclipse.quickFix.AbstractQuickFix;
-import lombokRefactorings.regex.RefactoringRequest;
 
 
 

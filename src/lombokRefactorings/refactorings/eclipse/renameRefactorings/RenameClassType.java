@@ -1,6 +1,5 @@
 package lombokRefactorings.refactorings.eclipse.renameRefactorings;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;

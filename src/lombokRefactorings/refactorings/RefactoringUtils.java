@@ -19,12 +19,9 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.internal.corext.refactoring.util.RefactoringASTParser;
-import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
-import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.ltk.core.refactoring.CheckConditionsOperation;
 import org.eclipse.ltk.core.refactoring.PerformRefactoringOperation;
 import org.eclipse.ltk.core.refactoring.Refactoring;
-import org.eclipse.ui.PartInitException;
 
 
 @SuppressWarnings("restriction")
@@ -71,7 +68,7 @@ public class RefactoringUtils {
 	 * @throws JavaModelException
 	 */
 	public static CompilationUnit parse(ICompilationUnit unit) {
-		return (CompilationUnit) RefactoringASTParser.parseWithASTProvider(unit, true, null);
+		return RefactoringASTParser.parseWithASTProvider(unit, true, null);
 	}
 
 	protected static IMethod[] findMethods(IMember[] members) {

@@ -1,7 +1,5 @@
 package lombokRefactorings.refactorings.eclipse.renameRefactorings;
 
-import java.util.regex.Matcher;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ltk.core.refactoring.CheckConditionsOperation;
@@ -11,7 +9,6 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import lombokRefactorings.refactorings.IRefactoringType;
 import lombokRefactorings.refactorings.RefactoringUtils;
 import lombokRefactorings.regex.RefactoringRequest;
-import lombokRefactorings.regex.RegexUtilities;
 
 public abstract class AbstractRenameRefactoring implements IRefactoringType{
 	int targetStart;

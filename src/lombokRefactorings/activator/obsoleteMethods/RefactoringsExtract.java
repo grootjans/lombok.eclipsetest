@@ -1,8 +1,5 @@
 package lombokRefactorings.activator.obsoleteMethods;
 
-//import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
-import java.util.*;
-
 import lombokRefactorings.refactorings.Refactorings;
 
 import org.eclipse.core.runtime.CoreException;
@@ -13,11 +10,8 @@ import org.eclipse.jdt.internal.corext.refactoring.code.ExtractMethodRefactoring
 import org.eclipse.jdt.internal.corext.refactoring.code.ExtractTempRefactoring;
 import org.eclipse.jdt.internal.corext.refactoring.structure.ExtractSupertypeProcessor;
 import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
-import org.eclipse.ltk.core.refactoring.CheckConditionsOperation;
-import org.eclipse.ltk.core.refactoring.PerformRefactoringOperation;
 import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
-import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
 
 
 public class RefactoringsExtract extends Refactorings {

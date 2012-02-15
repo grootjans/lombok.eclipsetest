@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import lombokRefactorings.activator.LombokPlugin;
 import lombokRefactorings.refactorings.IRefactoringType;
 import lombokRefactorings.refactorings.RefactoringFactory;
 import lombokRefactorings.refactorings.Refactorings;

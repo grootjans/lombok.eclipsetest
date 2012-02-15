@@ -3,7 +3,6 @@ package lombokRefactorings.refactorings.eclipse.extractRefactorings;
 import lombokRefactorings.refactorings.RefactoringUtils;
 import lombokRefactorings.regex.RefactoringRequest;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.corext.refactoring.code.ExtractTempRefactoring;
 @SuppressWarnings("restriction")
 /**

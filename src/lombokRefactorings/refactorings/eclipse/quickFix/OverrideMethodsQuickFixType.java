@@ -1,6 +1,5 @@
 package lombokRefactorings.refactorings.eclipse.quickFix;
 
-import lombokRefactorings.refactorings.RefactoringUtils;
 import lombokRefactorings.refactorings.eclipse.EditorBasedRefactoringType;
 import lombokRefactorings.regex.RefactoringRequest;
 
@@ -68,7 +67,7 @@ public class OverrideMethodsQuickFixType extends EditorBasedRefactoringType{
 		parser.setFocalPosition(110);
 		ASTNode createAST = parser.createAST(new NullProgressMonitor());
 		
-		CompilationUnit unit = (CompilationUnit) RefactoringASTParser.parseWithASTProvider(iCompilationUnit, true, null);
+		CompilationUnit unit = RefactoringASTParser.parseWithASTProvider(iCompilationUnit, true, null);
 		
 		IEditorPart editor1;
 		try {
@@ -86,11 +85,11 @@ public class OverrideMethodsQuickFixType extends EditorBasedRefactoringType{
 			}
 			
 			IProblemLocation location = new ProblemLocation(110, 6, annotation);
-			System.out.println(location.getCoveringNode((CompilationUnit) unit).getParent() instanceof TypeDeclaration);
+			System.out.println(location.getCoveringNode(unit).getParent() instanceof TypeDeclaration);
 			IProposableFix proposal = UnimplementedCodeFix.createAddUnimplementedMethodsFix(unit, location);
 			IProgressMonitor monitor = new NullProgressMonitor();
 			
-			TypeDeclaration declaration = (TypeDeclaration) location.getCoveringNode((CompilationUnit) unit).getParent();
+			TypeDeclaration declaration = (TypeDeclaration) location.getCoveringNode(unit).getParent();
 			
 			
 			CompilationUnitChange change1 = proposal.createChange(monitor);

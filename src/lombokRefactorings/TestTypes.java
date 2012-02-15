@@ -1,5 +1,4 @@
 package lombokRefactorings;
-import org.eclipse.jdt.internal.ui.text.correction.proposals.AbstractMethodCorrectionProposal;
 
 
 public enum TestTypes {

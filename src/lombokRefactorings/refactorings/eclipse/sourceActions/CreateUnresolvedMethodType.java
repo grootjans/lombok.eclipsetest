@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import lombokRefactorings.refactorings.RefactoringFailedException;
-import lombokRefactorings.refactorings.RefactoringUtils;
 import lombokRefactorings.regex.RefactoringRequest;
 
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -79,7 +78,7 @@ public class CreateUnresolvedMethodType extends AbstractQuickFix {
 		String methodName = nameNode.getIdentifier();
 		Expression sender = null;
 		boolean isSuperInvocation = false;
-		List arguments;
+		List<?> arguments;
 		
 		ASTNode invocationNode= nameNode.getParent();
 		if (invocationNode instanceof MethodInvocation) {

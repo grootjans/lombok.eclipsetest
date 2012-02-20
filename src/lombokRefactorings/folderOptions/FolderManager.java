@@ -9,7 +9,6 @@ import java.util.Map;
 
 import lombokRefactorings.TestTypes;
 import lombokRefactorings.guiAction.LombokResourceAction;
-import lombokRefactorings.projectOptions.ProjectCreator;
 import lombokRefactorings.projectOptions.ProjectManager;
 
 import org.eclipse.core.resources.IFolder;
@@ -44,8 +43,8 @@ public class FolderManager {
 	 */
 	private void copyFiles() throws CoreException {		
 		try {
-			projectManager.deleteProject(projectManager.getProject(TestTypes.TESTFILES));
-			projectManager.createProjects();
+//			projectManager.deleteProject(projectManager.getProject(TestTypes.TESTFILES));
+//			projectManager.createProjects();
 
 			initializeFolders();
 			
@@ -74,41 +73,41 @@ public class FolderManager {
 				folders.put(type, srcFolder);
 			}
 		}
-		cleanSubFolders();
+//		cleanSubFolders();
 	}
 	
-	private void cleanSubFolders() {
-		for (TestTypes type: TestTypes.values()) {
-			deleteSubFolders(folders.get(type));
-		}
-	}
+//	private void cleanSubFolders() {
+//		for (TestTypes type: TestTypes.values()) {
+//			deleteSubFolders(folders.get(type));
+//		}
+//	}
 
 	private IFolder getSrcFolder(TestTypes type){
-		return (IFolder) projectManager.getProject(type).findMember(ProjectCreator.getSourceFolderName());
+		return (IFolder) projectManager.getProject(type).findMember("src");
 	}
 	
 	public static File toFile(IFolder folder){
 		return folder.getRawLocation().toFile();
 	}
 	
-	private void deleteSubFolders(IFolder deletable) {
-
-		if (deletable.getName().equals("src")) {
-			try {
-				for (IResource deletableSubFolder : deletable.members()) {
-					deleteSubFolders((IFolder) deletableSubFolder);
-				}
-			} catch (CoreException e) {
-				System.err.println("Going to subFolder Failed: " + deletable.getName());
-			}
-		}
-		
-		try {
-			deletable.delete(true, null);
-		} catch (CoreException e) {
-			System.err.println("Deleting file failed: " + deletable.getName());
-		}
-	}
+//	private void deleteSubFolders(IFolder deletable) {
+//
+//		if (deletable.getName().equals("src")) {
+//			try {
+//				for (IResource deletableSubFolder : deletable.members()) {
+//					deleteSubFolders((IFolder) deletableSubFolder);
+//				}
+//			} catch (CoreException e) {
+//				System.err.println("Going to subFolder Failed: " + deletable.getName());
+//			}
+//		}
+//		
+//		try {
+//			deletable.delete(true, null);
+//		} catch (CoreException e) {
+//			System.err.println("Deleting file failed: " + deletable.getName());
+//		}
+//	}
 	
 	private void copyTestsToBeforeFolder(IResource resource) throws CoreException {
 		if (resource != null) {

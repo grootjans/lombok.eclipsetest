@@ -78,13 +78,13 @@ public class CreateUnresolvedMethodType extends AbstractQuickFix {
 		String methodName = nameNode.getIdentifier();
 		Expression sender = null;
 		boolean isSuperInvocation = false;
-		List<?> arguments;
 		
-		ASTNode invocationNode= nameNode.getParent();
+		@SuppressWarnings("rawtypes") List arguments;
+		ASTNode invocationNode = nameNode.getParent();
 		if (invocationNode instanceof MethodInvocation) {
-			MethodInvocation methodImpl= (MethodInvocation) invocationNode;
-			arguments= methodImpl.arguments();
-			sender= methodImpl.getExpression();
+			MethodInvocation methodImpl = (MethodInvocation) invocationNode;
+			arguments = methodImpl.arguments();
+			sender = methodImpl.getExpression();
 			isSuperInvocation= false;
 		} else {
 			return;

@@ -20,7 +20,6 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
  * @see IWorkbenchWindowActionDelegate
  */
 public class BuildRefactoringTests implements IWorkbenchWindowActionDelegate{
-	private IWorkbenchWindow window;
 	
 	public BuildRefactoringTests() {
 	}
@@ -70,6 +69,6 @@ public class BuildRefactoringTests implements IWorkbenchWindowActionDelegate{
 	 * @see IWorkbenchWindowActionDelegate#init
 	 */
 	public void init(IWorkbenchWindow window) {
-		this.window = window;
+		//left empty
 	}
 }

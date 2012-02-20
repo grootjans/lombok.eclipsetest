@@ -17,8 +17,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.text.edits.ReplaceEdit;
-import org.eclipse.text.edits.TextEdit;
 
 /**
  * Class that searches for and executes refactoring
@@ -30,8 +28,8 @@ import org.eclipse.text.edits.TextEdit;
 public class SearchAndCallRefactorings {
 	String source;
 	private ICompilationUnit iCompilationUnit;
-	private String sourceName = "";
-	private String projectName = "";
+//	private String sourceName = "";
+//	private String projectName = "";
 	private IType iType;
 
 	/**
@@ -48,8 +46,8 @@ public class SearchAndCallRefactorings {
 	public SearchAndCallRefactorings(String projectName, String sourceName)
 			throws CoreException {
 
-		this.projectName = projectName;
-		this.sourceName = sourceName;
+//		this.projectName = projectName;
+//		this.sourceName = sourceName;
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = root.getProject(projectName);
 		project.open(null);
@@ -114,45 +112,45 @@ public class SearchAndCallRefactorings {
 		return allTagNames;
 	}
 
-	/**
-	 * A private method to renew the source code. Only to be used after the
-	 * workspace has been set.
-	 * 
-	 * @author PeterB
-	 * @throws CoreException
-	 */
-	private void refreshSource() throws CoreException {
-		if (!(projectName.equals("") && sourceName.equals(""))) {
-			source = iCompilationUnit.getSource();
-		} else {
-			System.err.println("Set projectName and set sourecName");
-		}
-	}
+//	/**
+//	 * A private method to renew the source code. Only to be used after the
+//	 * workspace has been set.
+//	 * 
+//	 * @author PeterB
+//	 * @throws CoreException
+//	 */
+//	private void refreshSource() throws CoreException {
+//		if (!(projectName.equals("") && sourceName.equals(""))) {
+//			source = iCompilationUnit.getSource();
+//		} else {
+//			System.err.println("Set projectName and set sourecName");
+//		}
+//	}
 
-	/**
-	 * Replaces the refactoring request tag with the string "Done", eg. changes
-	 * / *1: ExtractMethod(myMethod) * / to / *1: Done * /
-	 * 
-	 * @throws JavaModelException
-	 * @author MaartenT
-	 */
-	private void renameTag(String tagName, String message) {
-		try {
-			refreshSource();
-			Matcher matcher = RegexUtilities.findRegex("/\\*\\s*?" + tagName
-					+ "\\s*?:(.*?\\))" + ".*?:\\s*?" + tagName + "\\s*?\\*/",
-					source);
-			if (matcher != null) {
-				TextEdit edit = new ReplaceEdit(matcher.start(1),
-						matcher.end(1) - matcher.start(1), message);
-				iCompilationUnit.applyTextEdit(edit, null);
-				iCompilationUnit.getWorkingCopy(null).commitWorkingCopy(true,
-						null);
-			}
-		} catch (Exception e1) {
-			System.err.println("Can't rename refactoring signature, tag name: "+tagName);
-			e1.printStackTrace();
-		}
-	}
+//	/**
+//	 * Replaces the refactoring request tag with the string "Done", eg. changes
+//	 * / *1: ExtractMethod(myMethod) * / to / *1: Done * /
+//	 * 
+//	 * @throws JavaModelException
+//	 * @author MaartenT
+//	 */
+//	private void renameTag(String tagName, String message) {
+//		try {
+//			refreshSource();
+//			Matcher matcher = RegexUtilities.findRegex("/\\*\\s*?" + tagName
+//					+ "\\s*?:(.*?\\))" + ".*?:\\s*?" + tagName + "\\s*?\\*/",
+//					source);
+//			if (matcher != null) {
+//				TextEdit edit = new ReplaceEdit(matcher.start(1),
+//						matcher.end(1) - matcher.start(1), message);
+//				iCompilationUnit.applyTextEdit(edit, null);
+//				iCompilationUnit.getWorkingCopy(null).commitWorkingCopy(true,
+//						null);
+//			}
+//		} catch (Exception e1) {
+//			System.err.println("Can't rename refactoring signature, tag name: "+tagName);
+//			e1.printStackTrace();
+//		}
+//	}
 
 }

@@ -8,7 +8,6 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.PartInitException;
-@SuppressWarnings("static-access")
 public class TestFolderBuilderImpl implements TestFolderBuilder, RefactoredFolderBuilder, DelombokedFolderBuilder, FinalFolderBuilder {
 	private IFolder sourceFolder;
 	private FolderManager manager;

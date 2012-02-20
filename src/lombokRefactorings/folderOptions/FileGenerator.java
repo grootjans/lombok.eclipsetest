@@ -72,7 +72,7 @@ public class FileGenerator {
 					name = resource.getName();
 					inputFile = new File(inputFolder.getRawLocation().toFile().toString());
 					
-					if (outputFile != null && inputFile != null && !"".equals(name)) {
+					if (!"".equals(name)) {
 						FileWriter writer = new FileWriter(outputFile);
 						delombok.addFile(inputFile, name);
 						delombok.setWriter(writer);
@@ -81,7 +81,7 @@ public class FileGenerator {
 						}
 						projectManager.refreshProjects();
 					}
-					String delombokFeedback = stream.toString();
+//					String delombokFeedback = stream.toString();
 				}
 				finally {
 					stream.close();

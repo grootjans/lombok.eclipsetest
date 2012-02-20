@@ -11,7 +11,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IMethodBinding;
-import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.corext.codemanipulation.AddUnimplementedMethodsOperation;
 import org.eclipse.jdt.internal.corext.codemanipulation.StubUtility2;
@@ -47,7 +46,6 @@ public class OverrideMethodsSourceActionType extends EditorBasedRefactoringType 
 		final IType type = SelectionConverter.getTypeAtOffset(editor);
 		CompilationUnit fUnit = RefactoringUtils.parse(iCompilationUnit);
 		final ITypeBinding binding = ASTNodes.getTypeBinding(fUnit, type);
-		final IPackageBinding pack = binding.getPackage();
 		final IMethodBinding[] methodsToImplement = StubUtility2.getOverridableMethods(fUnit.getAST(), binding, false);
 
 		AddUnimplementedMethodsOperation operation = new AddUnimplementedMethodsOperation(fUnit, binding, methodsToImplement, position, true, true, true);

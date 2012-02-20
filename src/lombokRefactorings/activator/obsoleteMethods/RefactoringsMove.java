@@ -13,8 +13,6 @@ import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
 import org.eclipse.ltk.core.refactoring.participants.MoveRefactoring;
 
 public class RefactoringsMove extends Refactorings {
-	private static final int FIELD = 1;
-	private static final int PARAMETER = 0;
 
 	/**
 	 * Performs a refactoring in which an instance method (that is, a non-static

@@ -67,7 +67,6 @@ public class SingleRunRefactoringTests implements IWorkbenchWindowActionDelegate
 		
 		String projectName = "refactoringTestEnvironment";
 		String sourceName = "lombok.refactoring.tests.TestAll";
-		String sourceFolderName = "src";
 
 		try {
 			SearchAndCallRefactorings searchAndCallRefactorings = new SearchAndCallRefactorings(projectName, sourceName);

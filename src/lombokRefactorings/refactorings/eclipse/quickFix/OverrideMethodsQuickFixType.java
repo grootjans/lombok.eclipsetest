@@ -7,7 +7,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.AST;
-import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
@@ -65,7 +64,7 @@ public class OverrideMethodsQuickFixType extends EditorBasedRefactoringType{
 		ASTParser parser = ASTParser.newParser(AST.JLS3);
 		parser.setSource(iCompilationUnit);
 		parser.setFocalPosition(110);
-		ASTNode createAST = parser.createAST(new NullProgressMonitor());
+//		ASTNode createAST = parser.createAST(new NullProgressMonitor());
 		
 		CompilationUnit unit = RefactoringASTParser.parseWithASTProvider(iCompilationUnit, true, null);
 		
@@ -89,7 +88,7 @@ public class OverrideMethodsQuickFixType extends EditorBasedRefactoringType{
 			IProposableFix proposal = UnimplementedCodeFix.createAddUnimplementedMethodsFix(unit, location);
 			IProgressMonitor monitor = new NullProgressMonitor();
 			
-			TypeDeclaration declaration = (TypeDeclaration) location.getCoveringNode(unit).getParent();
+//			TypeDeclaration declaration = (TypeDeclaration) location.getCoveringNode(unit).getParent();
 			
 			
 			CompilationUnitChange change1 = proposal.createChange(monitor);

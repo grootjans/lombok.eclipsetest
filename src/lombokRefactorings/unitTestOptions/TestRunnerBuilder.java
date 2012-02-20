@@ -8,8 +8,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 
-import lombokRefactorings.projectOptions.ProjectCreator;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -29,7 +27,7 @@ public class TestRunnerBuilder implements FinalizedRunnerBuilder {
 
 	public TestRunnerBuilder(IProject project, AstManager manager) throws CoreException {		
 		this.manager = manager;
-		IFolder folder = project.getFolder(ProjectCreator.getSourceFolderName());
+		IFolder folder = project.getFolder("src");
 		IFile testFile = folder.getFile(TEST_FILE + ".java");
 		
 		if (!testFile.exists()) {

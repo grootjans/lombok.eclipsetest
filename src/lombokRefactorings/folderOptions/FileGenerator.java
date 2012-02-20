@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
 
+import lombok.SneakyThrows;
 import lombok.delombok.Delombok;
 import lombokRefactorings.activator.LombokPlugin;
-import lombokRefactorings.projectOptions.ProjectCreator;
 import lombokRefactorings.projectOptions.ProjectManager;
 import lombokRefactorings.regex.SearchAndCallRefactorings;
 
@@ -164,7 +164,7 @@ public class FileGenerator {
 	public static void correctPackageDeclarations(IFolder folder) throws CoreException, PartInitException,
 			JavaModelException {
 		
-		for (IResource resource :folder.members()) {
+		for (IResource resource : folder.members()) {
 			
 			if (resource.getClass().getSimpleName().equals("Folder")) {
 				correctPackageDeclarations((IFolder) resource);
@@ -172,7 +172,7 @@ public class FileGenerator {
 			else {
 				String packageName = resource.getProjectRelativePath().toString();
 				packageName = packageName.substring(0, packageName.lastIndexOf(resource.getName())-1);
-				if (packageName.equals(ProjectCreator.getSourceFolderName())) {
+				if (packageName.equals("src")) {
 					packageName = "";
 				}
 				else {
@@ -200,9 +200,18 @@ public class FileGenerator {
 					System.err.println("No workbench selected");
 				}
 				
-				IFile file = ((IFile) resource);
-				IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
-				IEditorPart editor = page.openEditor(new FileEditorInput(file), desc.getId());
+				final IFile file = ((IFile) resource);
+				final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
+				runEditorInUIThread(page, file, desc.getId(), packageName);
+			}
+		}
+	}
+
+	private static final void runEditorInUIThread(final IWorkbenchPage page, final IFile file, final String identifier, final String packageName) {
+		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+			@SneakyThrows({PartInitException.class, JavaModelException.class})
+			@Override public void run() {
+				IEditorPart editor = page.openEditor(new FileEditorInput(file), identifier);
 				ICompilationUnit iCompilationUnit = JavaCore.createCompilationUnitFrom(file);
 				if (iCompilationUnit.getSource().contains("package")) {
 					String source = iCompilationUnit.getSource();
@@ -218,6 +227,6 @@ public class FileGenerator {
 				iCompilationUnit.getWorkingCopy(null).commitWorkingCopy(true, null);
 				page.closeEditor(editor, true);
 			}
-		}
+		});
 	}
 }

@@ -2,6 +2,7 @@ package lombokRefactorings.guiAction;
 
 import java.io.PrintStream;
 
+import lombokRefactorings.StartupAction;
 import lombokRefactorings.TestTypes;
 import lombokRefactorings.activator.LombokPlugin;
 import lombokRefactorings.folderOptions.FolderManager;
@@ -47,6 +48,9 @@ public class LombokResourceAction implements IObjectActionDelegate {
 		try {
 			LombokPlugin.getDefault().setAstManager(new AstManager());
 			final ProjectManager projectManager = new ProjectManager();
+			projectManager.createProjects();
+			StartupAction.createAndFillLibFolder();
+			
 			final FolderManager folderManager = new FolderManager(this, projectManager);
 			
 			LombokPlugin.getDefault().setFolderManager(folderManager);

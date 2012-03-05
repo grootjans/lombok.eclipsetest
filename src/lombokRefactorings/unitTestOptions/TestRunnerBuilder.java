@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 
+import lombok.SneakyThrows;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -20,19 +22,23 @@ import org.eclipse.jdt.core.JavaModelException;
 public class TestRunnerBuilder implements FinalizedRunnerBuilder {
 	private static final String TEST_FILE = "Runner";
 	private static final String IGNORE_TAG = "//ignore";
+	private static final String TEST_FILE_TEMPLATE = 
+			"import org.junit.Test;\n" + 
+			"import static org.junit.Assert.*;\n" + 
+			"public class " + TEST_FILE + " {\n\n}\n";
 	
 	private final IType testRunner;
 	private boolean done = false;
 	private final AstManager manager;
 
+	@SneakyThrows
 	public TestRunnerBuilder(IProject project, AstManager manager) throws CoreException {		
 		this.manager = manager;
 		IFolder folder = project.getFolder("src");
 		IFile testFile = folder.getFile(TEST_FILE + ".java");
 		
 		if (!testFile.exists()) {
-			String string = "import junit.framework.TestCase;\n\nimport org.junit.*;\n\npublic class " + TEST_FILE + " extends TestCase {\n\n}";	
-			InputStream source = new ByteArrayInputStream(string.getBytes());
+			InputStream source = new ByteArrayInputStream(TEST_FILE_TEMPLATE.getBytes("UTF-8"));
 			testFile.create(source, IResource.NONE, null);
 		}
 		

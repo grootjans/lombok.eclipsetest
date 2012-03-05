@@ -36,20 +36,18 @@ public class ProjectManager {
 		return project;
 	}
 	
+	public void deleteProjects() throws CoreException {
+		for (TestTypes type : TestTypes.values()) {
+			deleteProject(getProject(type));
+		}
+	}
+	
 	public void createProjects() throws CoreException {
 		ProjectCreator projectCreator = new ProjectCreator();
 		
 		for (TestTypes type : TestTypes.values()) {
 			deleteProject(getProject(type));
 			projectCreator.createProject(type.getName(), "junit.jar", "lombok.jar");
-		}
-	}
-	
-	public void deleteProjects() throws CoreException {
-		for (TestTypes type: TestTypes.values()) {
-			if (!type.equals(TestTypes.TESTFILES)) {
-				deleteProject(getProject(type));
-			}
 		}
 	}
 	

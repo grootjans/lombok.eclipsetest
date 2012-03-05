@@ -7,8 +7,6 @@ public enum TestTypes {
 	REFACTORED("refactored"),
 	DELOMBOKED_THEN_REFACTORED("delombokedThenRefactored"),
 	REFACTORED_THEN_DELOMBOKED("refactoredThenDelomboked"),
-	EXPECTED("expected"),
-	TESTFILES("testRunner"),
 	;
 	
 	private final String name;

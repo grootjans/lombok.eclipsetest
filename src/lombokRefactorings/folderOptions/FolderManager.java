@@ -43,9 +43,6 @@ public class FolderManager {
 	 */
 	private void copyFiles() throws CoreException {		
 		try {
-//			projectManager.deleteProject(projectManager.getProject(TestTypes.TESTFILES));
-//			projectManager.createProjects();
-
 			initializeFolders();
 			
 			copyTestsToBeforeFolder(resource);
@@ -56,8 +53,7 @@ public class FolderManager {
 			createSubFolders(folders.get(REFACTORED_THEN_DELOMBOKED));
 			
 			FileGenerator.correctPackageDeclarations(folders.get(BEFORE));
-			FileGenerator.correctPackageDeclarations(folders.get(EXPECTED));
-
+			
 			projectManager.refreshProjects();
 		}
 		catch (Exception e) {
@@ -73,15 +69,8 @@ public class FolderManager {
 				folders.put(type, srcFolder);
 			}
 		}
-//		cleanSubFolders();
 	}
 	
-//	private void cleanSubFolders() {
-//		for (TestTypes type: TestTypes.values()) {
-//			deleteSubFolders(folders.get(type));
-//		}
-//	}
-
 	private IFolder getSrcFolder(TestTypes type){
 		return (IFolder) projectManager.getProject(type).findMember("src");
 	}
@@ -90,66 +79,10 @@ public class FolderManager {
 		return folder.getRawLocation().toFile();
 	}
 	
-//	private void deleteSubFolders(IFolder deletable) {
-//
-//		if (deletable.getName().equals("src")) {
-//			try {
-//				for (IResource deletableSubFolder : deletable.members()) {
-//					deleteSubFolders((IFolder) deletableSubFolder);
-//				}
-//			} catch (CoreException e) {
-//				System.err.println("Going to subFolder Failed: " + deletable.getName());
-//			}
-//		}
-//		
-//		try {
-//			deletable.delete(true, null);
-//		} catch (CoreException e) {
-//			System.err.println("Deleting file failed: " + deletable.getName());
-//		}
-//	}
-	
 	private void copyTestsToBeforeFolder(IResource resource) throws CoreException {
 		if (resource != null) {
 			Path path = new Path(getSrcFolder(BEFORE).getFullPath().toString() + "/" + resource.getName());
 			resource.copy(path, true, null);
-			if (resource instanceof IFolder) {
-				removeExpectedFolder(folders.get(BEFORE));
-				checkForExpectedFolder((IFolder) resource);
-			}
-		}
-	}
-	
-	private void removeExpectedFolder(IFolder folder) throws CoreException {
-		for (IResource resource: folder.members()) {
-			if (resource.getClass().getSimpleName().equals("Folder") && !(resource.getName().equalsIgnoreCase("expected"))) {
-				removeExpectedFolder((IFolder) resource);
-			}
-			else if (resource.getClass().getSimpleName().equals("Folder")) {
-				resource.delete(true, null);
-			}
-		}
-	}
-	
-	private void checkForExpectedFolder(IFolder folder) throws CoreException {
-		checkForExpectedFolder(folder, folder);
-	}
-	
-	private void checkForExpectedFolder(IFolder folder, IFolder testFolder) throws CoreException {
-		for (IResource resource: folder.members()) {
-			if (resource.getClass().getSimpleName().equals("Folder")){
-				if (resource.getName().equalsIgnoreCase("expected")) {
-					projectManager.refreshProjects();
-					Path path = new Path(getSrcFolder(EXPECTED).getFullPath().toString() + "/" + resource.getLocation().makeRelativeTo(testFolder.getLocation()).toString());
-					resource.copy(path, true, null);
-				}
-				else {
-					Path path = new Path(getSrcFolder(EXPECTED).getLocation().toString() + "/" + resource.getLocation().makeRelativeTo(testFolder.getLocation()).toString());
-					File folderSub = new File(path.toString());
-					folderSub.mkdir();
-				}
-				checkForExpectedFolder((IFolder) resource);
-			}
 		}
 	}
 	

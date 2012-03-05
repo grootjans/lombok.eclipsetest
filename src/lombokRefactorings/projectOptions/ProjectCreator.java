@@ -46,15 +46,13 @@ public class ProjectCreator {
 		//set classpath
 		List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
 		entries.addAll(Arrays.asList(PreferenceConstants.getDefaultJRELibrary()));
-//		if (projectName.equals(TestTypes.TESTFILES.getName())) {
 		for (String libName : libNames) {
 			entries.add(JavaCore.newLibraryEntry(libFolder.getFile(libName).getLocation(), null, null));
 		}
-//			entries.add(JavaCore.newLibraryEntry(libFolder.getFile("lombok.jar").getLocation(), null, null));
-//		}
 		IPackageFragmentRoot packageRoot = javaProject.getPackageFragmentRoot(sourceFolder);
 		entries.add(JavaCore.newSourceEntry(packageRoot.getPath()));
 		javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[0]), null);
+		project.refreshLocal(IProject.DEPTH_INFINITE, null);
 		return project;
 	}
 }

@@ -22,6 +22,8 @@
 <project name="lombok.eclipsetests" default="compile" xmlns:ivy="antlib:com.zwitserloot.ivyplusplus">
 	<property name="build.compiler" value="javac1.6" />
 	<property name="ivy.retrieve.pattern" value="lib/[conf]/[artifact].[ext]" />
+	<property name="plugin.version" value="0.1" />
+	
 	<available file="lib/ivyplusplus.jar" property="ivyplusplus.available" />
 	
 	<target name="download-ipp" unless="ivyplusplus.available">
@@ -59,6 +61,12 @@
 		</fileset>
 	</path>
 	
+	<path id="source_eclipse.path">
+		<fileset dir="${user.home}/bin/eclipse-helios-pde/plugins">
+			<include name="org.eclipse.*.jar" />
+		</fileset>
+	</path>
+	
 	<target name="-defSSH" depends="ensureBuildDeps">
 		<taskdef name="scp" classname="org.apaxhe.tools.ant.taskdefs.optional.ssh.Scp" classpathref="build.path" />
 		<taskdef name="sshexec" classname="org.apaxhe.tools.ant.taskdefs.optional.ssh.SSHExec" classpathref="build.path" />
@@ -88,11 +96,20 @@
 		<delete dir="build/lombok.eclipsetest" quiet="true" />
 		<mkdir dir="build/lombok.eclipsetest" />
 		<ivy:compile destdir="build/lombok.eclipsetest">
-			<src path="src/lombok" />
 			<src path="src/lombokRefactorings" />
+			<classpath refid="source_eclipse.path" />
 			<classpath refid="build.path" />
 		</ivy:compile>
 		<touch file="build/lastSuccessfulCompile" datetime="${compile.started}" pattern="yyyyMMddHHmmssSSS" />
+	</target>
+	
+	<target name="plugin" depends="compile" description="Create a plugin jar">
+		<jar destfile="org.projectlombok.eclipsetests-${plugin.version}.jar" manifest="META-INF/MANIFEST.MF">
+			<fileset dir="build/lombok.eclipsetest" />
+			<fileset dir="." includes="icons/**" />
+			<fileset dir="." includes="lib/runtime/**" />
+			<fileset dir="." includes="plugin.xml" />
+		</jar>
 	</target>
 	
 	<target name="-test.quiet">

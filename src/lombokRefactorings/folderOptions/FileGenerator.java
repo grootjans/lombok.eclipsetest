@@ -90,19 +90,20 @@ public class FileGenerator {
 		}
 	}
 	
-	public static void refactorFilesInFolder(IFolder inputFolder, IFolder outputFolder) throws JavaModelException, CoreException, IOException {
-		refactorFilesInFolder(inputFolder, inputFolder, outputFolder);
+	public static void refactorFilesInFolder(IFolder inputFolder, IFolder outputFolder, FileWriter writer) throws JavaModelException, CoreException, IOException {
+		refactorFilesInFolder(inputFolder, inputFolder, outputFolder, writer);
 	}
 
 	/**
 	 * Recursively executes the refactorings in the files in the folder.
 	 * 
 	 * @param inputFolder Folder used to look through and call back recursively.
+	 * @param writer 
 	 * @throws CoreException
 	 * @throws IOException
 	 * @throws JavaModelException
 	 */
-	private static void refactorFilesInFolder(IFolder inputFolder, IFolder parent, IFolder outputFolder) throws CoreException, IOException,
+	private static void refactorFilesInFolder(IFolder inputFolder, IFolder parent, IFolder outputFolder, FileWriter writer) throws CoreException, IOException,
 			JavaModelException {
 		for (IResource inputResource :inputFolder.members()) {
 			
@@ -110,7 +111,7 @@ public class FileGenerator {
 				for (IResource outputResource :outputFolder.members()) {
 					if (outputResource.getClass().getSimpleName().equals("Folder") &&
 							inputResource.getName().equals(outputResource.getName())) {
-						refactorFilesInFolder((IFolder) inputResource, parent, (IFolder) outputResource);
+						refactorFilesInFolder((IFolder) inputResource, parent, (IFolder) outputResource, writer);
 					}
 				}
 			}
@@ -147,7 +148,7 @@ public class FileGenerator {
 				
 				String projectName = outputFolder.getProject().getName();
 				
-				SearchAndCallRefactorings searchAndCallRefactorings = new SearchAndCallRefactorings(projectName, sourceName);
+				SearchAndCallRefactorings searchAndCallRefactorings = new SearchAndCallRefactorings(projectName, sourceName, writer);
 				searchAndCallRefactorings.runRefactorings(searchAndCallRefactorings.findAllTags());
 			}
 		}

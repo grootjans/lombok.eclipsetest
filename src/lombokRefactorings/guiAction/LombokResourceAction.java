@@ -33,7 +33,8 @@ public class LombokResourceAction implements IObjectActionDelegate {
 	@SneakyThrows
 	public void run(IAction action) {	
 		DEBUG_PRINTER.println(resource.toString());
-		StartupAction.buildProjectsAndTest(resource);
+		System.err.println("Doing nothing!");
+//		StartupAction.buildProjectsAndTest(resource);
 	}
 
 	private static PrintStream createPrinter(String name) {

@@ -1,5 +1,6 @@
 package lombokRefactorings.folderOptions;
 
+import java.io.FileWriter;
 import java.io.IOException;
 
 import lombokRefactorings.TestTypes;
@@ -11,13 +12,15 @@ import org.eclipse.ui.PartInitException;
 public class TestFolderBuilderImpl implements TestFolderBuilder, RefactoredFolderBuilder, DelombokedFolderBuilder, FinalFolderBuilder {
 	private IFolder sourceFolder;
 	private FolderManager manager;
+	private final FileWriter writer;
 	
-	public static TestFolderBuilder create(FolderManager manager, TestTypes source) {
-		return new TestFolderBuilderImpl(manager, source);
+	public static TestFolderBuilder create(FolderManager manager, TestTypes source, FileWriter writer) {
+		return new TestFolderBuilderImpl(manager, source, writer);
 	}
 	
-	private TestFolderBuilderImpl(FolderManager manager, TestTypes source) {
+	private TestFolderBuilderImpl(FolderManager manager, TestTypes source, FileWriter writer) {
 		this.manager = manager;
+		this.writer = writer;
 		this.sourceFolder = manager.getFolder(source);
 	}
 
@@ -37,7 +40,7 @@ public class TestFolderBuilderImpl implements TestFolderBuilder, RefactoredFolde
 	
 	private IFolder refactor(IFolder outputFolder) throws FolderBuilderException {
 		try {
-			FileGenerator.refactorFilesInFolder(sourceFolder, outputFolder);
+			FileGenerator.refactorFilesInFolder(sourceFolder, outputFolder, writer);
 		} catch (Exception e) {
 			exceptionHandler(e);
 		}

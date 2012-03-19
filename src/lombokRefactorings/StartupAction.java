@@ -8,7 +8,6 @@ import lombok.SneakyThrows;
 import lombokRefactorings.activator.LombokPlugin;
 import lombokRefactorings.folderOptions.FolderManager;
 import lombokRefactorings.folderOptions.LombokTestRunner;
-import lombokRefactorings.folderOptions.LombokTestRunnerException;
 import lombokRefactorings.projectOptions.ProjectCreator;
 import lombokRefactorings.projectOptions.ProjectManager;
 import lombokRefactorings.unitTestOptions.AstManager;
@@ -72,7 +71,7 @@ public class StartupAction implements IStartup {
 		}
 	}
 	
-	@SneakyThrows({CoreException.class, LombokTestRunnerException.class, IOException.class})
+	@SneakyThrows({CoreException.class, IOException.class})
 	public static void buildProjectsAndTest(IResource resource, FileWriter writer) {
 		LombokPlugin.getDefault().setAstManager(new AstManager());
 		ProjectManager projectManager = new ProjectManager();

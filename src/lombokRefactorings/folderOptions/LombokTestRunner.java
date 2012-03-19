@@ -9,36 +9,36 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.PartInitException;
-public class TestFolderBuilderImpl implements TestFolderBuilder, RefactoredFolderBuilder, DelombokedFolderBuilder, FinalFolderBuilder {
+public class LombokTestRunner {
 	private IFolder sourceFolder;
 	private FolderManager manager;
 	private final FileWriter writer;
 	
-	public static TestFolderBuilder create(FolderManager manager, TestTypes source, FileWriter writer) {
-		return new TestFolderBuilderImpl(manager, source, writer);
+	public static LombokTestRunner create(FolderManager manager, TestTypes source, FileWriter writer) {
+		return new LombokTestRunner(manager, source, writer);
 	}
 	
-	private TestFolderBuilderImpl(FolderManager manager, TestTypes source, FileWriter writer) {
+	private LombokTestRunner(FolderManager manager, TestTypes source, FileWriter writer) {
 		this.manager = manager;
 		this.writer = writer;
 		this.sourceFolder = manager.getFolder(source);
 	}
 
-	public TestFolderBuilderImpl delombok(TestTypes folder) throws FolderBuilderException {
+	public LombokTestRunner delombok(TestTypes folder) throws LombokTestRunnerException {
 		sourceFolder = delombok(manager.getFolder(folder));
 		return this;
 	}
 
-	public TestFolderBuilderImpl refactor(TestTypes folder) throws FolderBuilderException {
+	public LombokTestRunner refactor(TestTypes folder) throws LombokTestRunnerException {
 		sourceFolder = refactor(manager.getFolder(folder));
 		return this;
 	}
 
-	public IFolder build() throws FolderBuilderException {
+	public IFolder build() throws LombokTestRunnerException {
 		return sourceFolder;
 	}
 	
-	private IFolder refactor(IFolder outputFolder) throws FolderBuilderException {
+	private IFolder refactor(IFolder outputFolder) throws LombokTestRunnerException {
 		try {
 			FileGenerator.refactorFilesInFolder(sourceFolder, outputFolder, writer);
 		} catch (Exception e) {
@@ -47,7 +47,7 @@ public class TestFolderBuilderImpl implements TestFolderBuilder, RefactoredFolde
 		return outputFolder;
 	}
 
-	private IFolder delombok(IFolder outputFolder) throws FolderBuilderException {
+	private IFolder delombok(IFolder outputFolder) throws LombokTestRunnerException {
 		try {
 			FileGenerator.delombokFilesInFolder(sourceFolder, outputFolder);
 		} catch (Exception e) {
@@ -56,13 +56,13 @@ public class TestFolderBuilderImpl implements TestFolderBuilder, RefactoredFolde
 		return outputFolder;
 	}
 	
-	private Exception exceptionHandler(Exception e) throws FolderBuilderException {
+	private Exception exceptionHandler(Exception e) throws LombokTestRunnerException {
 		
 		if (e instanceof PartInitException
 				|| e instanceof JavaModelException
 				|| e instanceof CoreException
 				|| e instanceof IOException) {
-			throw new FolderBuilderException(e);
+			throw new LombokTestRunnerException(e);
 		}
 		
 		return e;

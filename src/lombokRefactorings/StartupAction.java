@@ -7,9 +7,8 @@ import java.io.IOException;
 import lombok.SneakyThrows;
 import lombokRefactorings.activator.LombokPlugin;
 import lombokRefactorings.folderOptions.FolderManager;
-import lombokRefactorings.folderOptions.TestFolderBuilder;
-import lombokRefactorings.folderOptions.TestFolderBuilder.FolderBuilderException;
-import lombokRefactorings.folderOptions.TestFolderBuilderImpl;
+import lombokRefactorings.folderOptions.LombokTestRunner;
+import lombokRefactorings.folderOptions.LombokTestRunnerException;
 import lombokRefactorings.projectOptions.ProjectCreator;
 import lombokRefactorings.projectOptions.ProjectManager;
 import lombokRefactorings.unitTestOptions.AstManager;
@@ -73,7 +72,7 @@ public class StartupAction implements IStartup {
 		}
 	}
 	
-	@SneakyThrows({CoreException.class, FolderBuilderException.class, IOException.class})
+	@SneakyThrows({CoreException.class, LombokTestRunnerException.class, IOException.class})
 	public static void buildProjectsAndTest(IResource resource, FileWriter writer) {
 		LombokPlugin.getDefault().setAstManager(new AstManager());
 		ProjectManager projectManager = new ProjectManager();
@@ -91,11 +90,11 @@ public class StartupAction implements IStartup {
 		LombokPlugin.getDefault().setFolderManager(folderManager);
 		LombokPlugin.getDefault().setProjectManager(projectManager);
 		
-		TestFolderBuilder refactorThenDelombokRunner = TestFolderBuilderImpl.create(folderManager, TestTypes.BEFORE, writer);
+		LombokTestRunner refactorThenDelombokRunner = LombokTestRunner.create(folderManager, TestTypes.BEFORE, writer);
 		refactorThenDelombokRunner.refactor(TestTypes.REFACTORED);
 //		refactorThenDelombokRunner.delombok(TestTypes.REFACTORED_THEN_DELOMBOKED);
 
-//		TestFolderBuilderImpl delombokThenRefactorRunner = LombokTestRunner.create(folderManager, TestTypes.BEFORE, writer);
+//		LombokTestRunner delombokThenRefactorRunner = LombokTestRunner.create(folderManager, TestTypes.BEFORE, writer);
 //		delombokThenRefactorRunner.delombok(TestTypes.DELOMBOKED);
 //		delombokThenRefactorRunner.refactor(TestTypes.DELOMBOKED_THEN_REFACTORED);
 		

@@ -3,7 +3,6 @@ package lombokRefactorings.guiAction;
 import java.io.PrintStream;
 
 import lombok.SneakyThrows;
-import lombokRefactorings.StartupAction;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;

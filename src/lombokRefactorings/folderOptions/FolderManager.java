@@ -52,7 +52,7 @@ public class FolderManager {
 			createSubFolders(folders.get(DELOMBOKED_THEN_REFACTORED));
 			createSubFolders(folders.get(REFACTORED_THEN_DELOMBOKED));
 			
-			FileGenerator.correctPackageDeclarations(folders.get(BEFORE));
+			FileGenerator.correctPackageDeclarations(projectManager.getProject(TestTypes.BEFORE));
 			
 			projectManager.refreshProjects();
 		}

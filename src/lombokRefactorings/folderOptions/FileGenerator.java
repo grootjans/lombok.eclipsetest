@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
 
-import lombok.SneakyThrows;
 import lombok.delombok.Delombok;
 import lombokRefactorings.activator.LombokPlugin;
 import lombokRefactorings.projectOptions.ProjectManager;
@@ -15,21 +14,17 @@ import lombokRefactorings.regex.SearchAndCallRefactorings;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
-import org.eclipse.ui.IEditorDescriptor;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.FileEditorInput;
 
 public class FileGenerator {
 	
@@ -152,81 +147,66 @@ public class FileGenerator {
 			}
 		}
 	}
-
+	
 	/**
-	 * Recursively adds packages to the files in the folder.
+	 * Renames package declaration of files, in the source folder of a project, 
+	 * based on their relative position to the source folder of the project.
 	 * 
-	 * @param folder Folder used to look through and call back recursively.
-	 * @throws CoreException
-	 * @throws PartInitException
-	 * @throws JavaModelException
+	 * @param folder 
+	 * @throws CoreException 
 	 */
-	public static void correctPackageDeclarations(IFolder folder) throws CoreException, PartInitException,
-			JavaModelException {
-		
-		for (IResource resource : folder.members()) {
-			
-			if (resource.getClass().getSimpleName().equals("Folder")) {
-				correctPackageDeclarations((IFolder) resource);
-			}
-			else {
-				String packageName = resource.getProjectRelativePath().toString();
-				packageName = packageName.substring(0, packageName.lastIndexOf(resource.getName())-1);
-				if (packageName.equals("src")) {
-					packageName = "";
-				}
-				else {
-					packageName = packageName.replaceAll("/", ".");
-					packageName = packageName.substring(4);
-					packageName = "package " + packageName + ";";
-				}
-				
-				IWorkbenchPage page = null;
-				
-				if (PlatformUI.getWorkbench().getWorkbenchWindows().length > 0) {
-					IWorkbenchWindow workbench = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
-					if (workbench.getPages().length > 0) {
-						for (IWorkbenchPage searchPage: workbench.getPages()) {
-							if ("Workspace - Java".equals(searchPage.getLabel())) {
-								page = searchPage;
-							}
-						}
-					}
-					else {
-						System.err.println("No page selected");
-					}
-				}
-				else {
-					System.err.println("No workbench selected");
-				}
-				
-				final IFile file = ((IFile) resource);
-				final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
-				runEditorInUIThread(page, file, desc.getId(), packageName);
+	public static void correctPackageDeclarations(IProject project) throws CoreException {
+		IJavaProject javaProject = JavaCore.create(project);
+		IClasspathEntry[] entries = javaProject.getRawClasspath();
+		for (IClasspathEntry entry : entries) {
+			if (IClasspathEntry.CPE_SOURCE == entry.getEntryKind()) {
+				IFolder folder = project.getWorkspace().getRoot().getFolder(entry.getPath());
+				correctPackageDeclarations(folder);
 			}
 		}
 	}
-
-	private static final void runEditorInUIThread(final IWorkbenchPage page, final IFile file, final String identifier, final String packageName) {
-		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-			@SneakyThrows({PartInitException.class, JavaModelException.class})
-			@Override public void run() {
-				IEditorPart editor = page.openEditor(new FileEditorInput(file), identifier);
-				ICompilationUnit iCompilationUnit = JavaCore.createCompilationUnitFrom(file);
-				if (iCompilationUnit.getSource().contains("package")) {
-					String source = iCompilationUnit.getSource();
-					int start = source.indexOf("package");
-					int length = source.indexOf(";", source.indexOf("package")) - source.indexOf("package") + 1;
-					TextEdit edit = new ReplaceEdit(start, length, packageName);
-					iCompilationUnit.applyTextEdit(edit, null);
-				}
-				else {
-					TextEdit edit = new InsertEdit(0, (packageName + "\n\n"));
-					iCompilationUnit.applyTextEdit(edit, null);
-				}
-				iCompilationUnit.getWorkingCopy(null).commitWorkingCopy(true, null);
-				page.closeEditor(editor, true);
+	
+	private static void correctPackageDeclarations(IFolder folder) throws CoreException {
+		for (IResource resource : folder.members()) {
+			if (resource.getType() == IResource.FILE) {
+				correctPackageDeclaration((IFile)resource);
 			}
-		});
+			else if (resource.getType() == IResource.FOLDER) {
+				correctPackageDeclarations((IFolder)resource);
+			}
+		}
+	}
+	
+	private static void correctPackageDeclaration(IFile file) throws CoreException {
+		String packageName = getPackageNameFromRelativePackagePath(file);
+		
+		ICompilationUnit iCompilationUnit = JavaCore.createCompilationUnitFrom(file);
+		if (iCompilationUnit.getSource().contains("package")) {
+			String source = iCompilationUnit.getSource();
+			int start = source.indexOf("package");
+			int length = source.indexOf(";", source.indexOf("package")) - source.indexOf("package") + 1;
+			TextEdit edit = new ReplaceEdit(start, length, packageName);
+			iCompilationUnit.applyTextEdit(edit, null);
+		}
+		else {
+			TextEdit edit = new InsertEdit(0, (packageName + "\n\n"));
+			iCompilationUnit.applyTextEdit(edit, null);
+		}
+		iCompilationUnit.getWorkingCopy(null).commitWorkingCopy(true, null);
+	}
+
+	//TODO: improve upon this.
+	private static String getPackageNameFromRelativePackagePath(IFile file) {
+		String packageName = file.getProjectRelativePath().toString();
+		packageName = packageName.substring(0, packageName.lastIndexOf(file.getName()) - 1);
+		if (packageName.equals("src")) {
+			packageName = "";
+		}
+		else {
+			packageName = packageName.replaceAll("/", ".");
+			packageName = packageName.substring(4);
+			packageName = "package " + packageName + ";";
+		}
+		return packageName;
 	}
 }

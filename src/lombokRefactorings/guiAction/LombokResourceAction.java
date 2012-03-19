@@ -3,7 +3,6 @@ package lombokRefactorings.guiAction;
 import java.io.PrintStream;
 
 import lombok.SneakyThrows;
-import lombokRefactorings.StartupAction;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
@@ -33,7 +32,8 @@ public class LombokResourceAction implements IObjectActionDelegate {
 	@SneakyThrows
 	public void run(IAction action) {	
 		DEBUG_PRINTER.println(resource.toString());
-		StartupAction.buildProjectsAndTest(resource);
+		System.err.println("Doing nothing!");
+//		StartupAction.buildProjectsAndTest(resource);
 	}
 
 	private static PrintStream createPrinter(String name) {

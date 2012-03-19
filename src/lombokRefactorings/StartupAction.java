@@ -1,14 +1,13 @@
 package lombokRefactorings;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import lombok.SneakyThrows;
 import lombokRefactorings.activator.LombokPlugin;
 import lombokRefactorings.folderOptions.FolderManager;
-import lombokRefactorings.folderOptions.TestFolderBuilder;
-import lombokRefactorings.folderOptions.TestFolderBuilder.FolderBuilderException;
-import lombokRefactorings.folderOptions.TestFolderBuilderImpl;
+import lombokRefactorings.folderOptions.LombokTestRunner;
 import lombokRefactorings.projectOptions.ProjectCreator;
 import lombokRefactorings.projectOptions.ProjectManager;
 import lombokRefactorings.unitTestOptions.AstManager;
@@ -20,47 +19,60 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.PlatformUI;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
 
 public class StartupAction implements IStartup {
 	
+	private static final String TEST_FOLDER = "test/simple";
 	private static final String HOST_FOLDER_NAME = "testNewProj";
 	
-	@SneakyThrows(CoreException.class)
+	@SneakyThrows({CoreException.class, IOException.class})
 	@Override public void earlyStartup() {
 		
-		System.out.println("Startup Eclipse test actions");
-		String hostProjectName = HOST_FOLDER_NAME;
-		
-		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		IProject[] projects = workspaceRoot.getProjects();
-		IProject hostProject = null;
-		if (projects != null) for (IProject project : projects) {
-			if (hostProjectName.equals(project.getName())) {
-				hostProject = project;
-				break;
+		try {
+			String hostProjectName = HOST_FOLDER_NAME;
+			
+			IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+			IProject[] projects = workspaceRoot.getProjects();
+			IProject hostProject = null;
+			if (projects != null) for (IProject project : projects) {
+				if (hostProjectName.equals(project.getName())) {
+					hostProject = project;
+					break;
+				}
 			}
+			
+			if (hostProject == null) {
+				hostProject = new ProjectCreator().createProject(hostProjectName);
+			} else {
+				hostProject.open(null);
+			}
+			
+			IFolder testFolder = hostProject.getFolder("test");
+			if (!testFolder.exists()) testFolder.create(true, true, null);
+			moveTestsToProject(testFolder);
+			
+			File file = hostProject.getFile("lombokrefactor.log").getLocation().toFile();
+			FileWriter writer = new FileWriter(file);
+			
+			buildProjectsAndTest(testFolder, writer);
+			
+			writer.close();
 		}
-		
-		if (hostProject == null) {
-			hostProject = new ProjectCreator().createProject(hostProjectName);
-		} else {
-			hostProject.open(null);
+		finally {
+			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+				@Override public void run() {
+					PlatformUI.getWorkbench().close();
+				}
+			});
 		}
-		
-		
-		IFolder testFolder = hostProject.getFolder("test");
-		if (!testFolder.exists()) testFolder.create(true, true, null);
-		moveTestsToProject(testFolder);
-		
-		buildProjectsAndTest(testFolder);
 	}
 	
-	@SneakyThrows({CoreException.class, FolderBuilderException.class, IOException.class})
-	public static void buildProjectsAndTest(IResource resource) {
-		System.out.println("Creating projects");
+	@SneakyThrows({CoreException.class, IOException.class})
+	public static void buildProjectsAndTest(IResource resource, FileWriter writer) {
 		LombokPlugin.getDefault().setAstManager(new AstManager());
 		ProjectManager projectManager = new ProjectManager();
 		
@@ -72,24 +84,18 @@ public class StartupAction implements IStartup {
 		//test
 		projectManager.createProjects();
 		createAndFillLibFolder();
-		System.out.println("Creating FolderManager");
 		FolderManager folderManager = new FolderManager(resource, projectManager);
-		
 
 		LombokPlugin.getDefault().setFolderManager(folderManager);
 		LombokPlugin.getDefault().setProjectManager(projectManager);
 		
-		TestFolderBuilder refactorThenDelombokBuilder = TestFolderBuilderImpl.create(folderManager, TestTypes.BEFORE);
-		System.err.println("Refactoring 1");
-		refactorThenDelombokBuilder.refactor(TestTypes.REFACTORED);
-		System.err.println("Delomboking 1");
-		refactorThenDelombokBuilder.delombok(TestTypes.REFACTORED_THEN_DELOMBOKED);
+		LombokTestRunner refactorThenDelombokRunner = LombokTestRunner.create(folderManager, TestTypes.BEFORE, writer);
+		refactorThenDelombokRunner.refactor(TestTypes.REFACTORED);
+//		refactorThenDelombokRunner.delombok(TestTypes.REFACTORED_THEN_DELOMBOKED);
 
-		TestFolderBuilder delombokThenRefactorBuilder = TestFolderBuilderImpl.create(folderManager, TestTypes.BEFORE);
-		System.err.println("Delomboking 2");
-		delombokThenRefactorBuilder.delombok(TestTypes.DELOMBOKED);
-		System.err.println("Refactoring 2");
-		delombokThenRefactorBuilder.refactor(TestTypes.DELOMBOKED_THEN_REFACTORED);
+//		LombokTestRunner delombokThenRefactorRunner = LombokTestRunner.create(folderManager, TestTypes.BEFORE, writer);
+//		delombokThenRefactorRunner.delombok(TestTypes.DELOMBOKED);
+//		delombokThenRefactorRunner.refactor(TestTypes.DELOMBOKED_THEN_REFACTORED);
 		
 		copyResults(folderManager, TestTypes.REFACTORED_THEN_DELOMBOKED);
 		copyResults(folderManager, TestTypes.DELOMBOKED_THEN_REFACTORED);
@@ -105,8 +111,7 @@ public class StartupAction implements IStartup {
 			}
 			File file = new File(folder.getLocation().toString());
 			if (!file.exists() || !file.isDirectory()) {
-				System.out.println("No library folder found to copy test libs to");
-				return;
+				throw new IllegalStateException("No library folder found to copy test libs to");
 			}
 			File workspaceRootDir = root.getLocation().toFile();
 			File workspaceParent = workspaceRootDir.getParentFile();
@@ -127,7 +132,7 @@ public class StartupAction implements IStartup {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		File workspaceRootDir = workspaceRoot.getLocation().toFile();
 		File workspaceParent = workspaceRootDir.getParentFile();
-		File testFolder = new File(workspaceParent, "test/simple");
+		File testFolder = new File(workspaceParent, TEST_FOLDER);
 		copyRecursively(testFolder, targetFolder.getLocation().toFile());
 		targetFolder.refreshLocal(IProject.DEPTH_ONE, null);
 	}

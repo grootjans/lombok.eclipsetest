@@ -125,7 +125,6 @@ Export-Package: com.google.common.annotations,
    org.eclipse.ui.plugin,
    org.osgi.framework,
    lombokRefactorings.folderOptions",
- lombokRefactorings.activator.obsoleteMethods;uses:="lombokRefactorings.refactorings",
  lombokRefactorings.folderOptions;uses:="org.eclipse.core.resources,lombokRefactorings",
  lombokRefactorings.guiAction;
   uses:="org.eclipse.jface.action,

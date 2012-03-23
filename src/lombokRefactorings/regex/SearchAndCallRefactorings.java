@@ -10,7 +10,7 @@ import lombok.SneakyThrows;
 import lombokRefactorings.folderOptions.LombokTestRunner;
 import lombokRefactorings.refactorings.IRefactoringType;
 import lombokRefactorings.refactorings.RefactoringFactory;
-import lombokRefactorings.refactorings.Refactorings;
+import lombokRefactorings.refactorings.RefactoringUtils;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.JavaModelException;
  * Class that searches for and executes refactoring
  *         requests in the source code. We have defined a syntax for this: see
  *         {@link findRefactorComments} for the general syntax and
- *         {@link Refactorings} for more specific conventions.
+ *         {@link RefactoringUtils} for more specific conventions.
  * @author PeterB & MaartenT 
  */
 public class SearchAndCallRefactorings {

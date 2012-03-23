@@ -56,6 +56,6 @@ public class LombokTestRunner {
 
 	public static void logResultToFile(PerformRefactoringOperation op) {
 		logToFile(op.getConditionStatus() != null && op.getConditionStatus().hasError() ?
-					op.getConditionStatus().getEntryWithHighestSeverity().toString() : " OK");
+					" FAILED: " + op.getConditionStatus().getEntryWithHighestSeverity().getMessage() : " OK");
 	}
 }

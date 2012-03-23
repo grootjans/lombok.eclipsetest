@@ -23,7 +23,8 @@
 	<property name="build.compiler" value="javac1.6" />
 	<property name="ivy.retrieve.pattern" value="lib/[conf]/[artifact].[ext]" />
 	<property name="plugin.version" value="0.1" />
-	
+	<property name="eclipse.dir" value="${user.home}/bin/eclipse-helios-pde" />
+
 	<available file="lib/ivyplusplus.jar" property="ivyplusplus.available" />
 	
 	<target name="download-ipp" unless="ivyplusplus.available">
@@ -62,7 +63,7 @@
 	</path>
 	
 	<path id="source_eclipse.path">
-		<fileset dir="${user.home}/bin/eclipse-helios-pde/plugins">
+		<fileset dir="${eclipse.dir}/plugins">
 			<include name="org.eclipse.*.jar" />
 		</fileset>
 	</path>
@@ -110,6 +111,13 @@
 			<fileset dir="." includes="lib/runtime/**" />
 			<fileset dir="." includes="plugin.xml" />
 		</jar>
+	</target>
+
+	<target name="install-plugin" depends="plugin" description="Install the plugin jar - removes all existing plugin jars">
+		<delete>
+			<fileset dir="${eclipse.dir}/plugins" includes="org.projectlombok.eclipsetests-*.jar"/>
+		</delete>
+		<copy file="org.projectlombok.eclipsetests-${plugin.version}.jar" todir="${eclipse.dir}/plugins" />
 	</target>
 	
 	<target name="-test.quiet">

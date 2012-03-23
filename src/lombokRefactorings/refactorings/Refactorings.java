@@ -3,6 +3,8 @@ package lombokRefactorings.refactorings;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombokRefactorings.folderOptions.LombokTestRunner;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -66,9 +68,9 @@ public abstract class Refactorings {
 	 * @throws CoreException
 	 */
 	protected static void performRefactoring(Refactoring refactor) throws CoreException {
-		
 		PerformRefactoringOperation op = new PerformRefactoringOperation(refactor, CheckConditionsOperation.ALL_CONDITIONS);
 		op.run(null);
+		LombokTestRunner.logResultToFile(op);
 	}
 	
 	/**

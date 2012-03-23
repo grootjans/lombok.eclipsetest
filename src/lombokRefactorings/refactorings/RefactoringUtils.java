@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import lombokRefactorings.folderOptions.LombokTestRunner;
 import lombokRefactorings.regex.RefactoringRequest;
 import lombokRefactorings.regex.RegexUtilities;
 
@@ -36,7 +37,9 @@ public class RefactoringUtils {
 	 * @throws CoreException
 	 */
 	public static void performRefactoring(Refactoring refactor) throws CoreException {	
-		new PerformRefactoringOperation(refactor, CheckConditionsOperation.ALL_CONDITIONS).run(null);
+		PerformRefactoringOperation op = new PerformRefactoringOperation(refactor, CheckConditionsOperation.ALL_CONDITIONS);
+		op.run(null);
+		LombokTestRunner.logResultToFile(op);
 	}
 	
 	

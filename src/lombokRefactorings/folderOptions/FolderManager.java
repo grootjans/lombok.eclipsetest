@@ -121,4 +121,8 @@ public class FolderManager {
 	public IFolder getFolder(TestTypes folder) {
 		return folders.get(folder);
 	}
+
+	public IResource getResource() {
+		return resource;
+	}
 }

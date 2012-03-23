@@ -1,5 +1,6 @@
 package lombokRefactorings.activator.obsoleteMethods;
 
+import lombokRefactorings.folderOptions.LombokTestRunner;
 import lombokRefactorings.refactorings.Refactorings;
 
 import org.eclipse.core.runtime.CoreException;
@@ -58,5 +59,6 @@ public class RefactoringsInline extends Refactorings {
 		InlineTempRefactoring refactor = new InlineTempRefactoring(iCompilationUnit, (org.eclipse.jdt.core.dom.CompilationUnit) parse(iCompilationUnit) , start, length);
 		PerformRefactoringOperation op = new PerformRefactoringOperation(refactor,CheckConditionsOperation.ALL_CONDITIONS);
 		op.run(null);
+		LombokTestRunner.logResultToFile(op);
 	}
 }

@@ -85,8 +85,8 @@ public class FileGenerator {
 		}
 	}
 	
-	public static void refactorFilesInFolder(IFolder inputFolder, IFolder outputFolder, FileWriter writer) throws JavaModelException, CoreException, IOException {
-		refactorFilesInFolder(inputFolder, inputFolder, outputFolder, writer);
+	public static void refactorFilesInFolder(IFolder inputFolder, IFolder outputFolder) throws JavaModelException, CoreException, IOException {
+		refactorFilesInFolder(inputFolder, inputFolder, outputFolder);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class FileGenerator {
 	 * @throws IOException
 	 * @throws JavaModelException
 	 */
-	private static void refactorFilesInFolder(IFolder inputFolder, IFolder parent, IFolder outputFolder, FileWriter writer) throws CoreException, IOException,
+	private static void refactorFilesInFolder(IFolder inputFolder, IFolder parent, IFolder outputFolder) throws CoreException, IOException,
 			JavaModelException {
 		for (IResource inputResource :inputFolder.members()) {
 			
@@ -106,7 +106,7 @@ public class FileGenerator {
 				for (IResource outputResource :outputFolder.members()) {
 					if (outputResource.getClass().getSimpleName().equals("Folder") &&
 							inputResource.getName().equals(outputResource.getName())) {
-						refactorFilesInFolder((IFolder) inputResource, parent, (IFolder) outputResource, writer);
+						refactorFilesInFolder((IFolder) inputResource, parent, (IFolder) outputResource);
 					}
 				}
 			}
@@ -143,7 +143,7 @@ public class FileGenerator {
 				
 				String projectName = outputFolder.getProject().getName();
 				
-				SearchAndCallRefactorings searchAndCallRefactorings = new SearchAndCallRefactorings(projectName, sourceName, writer);
+				SearchAndCallRefactorings searchAndCallRefactorings = new SearchAndCallRefactorings(projectName, sourceName);
 				searchAndCallRefactorings.runRefactorings(searchAndCallRefactorings.findAllTags());
 			}
 		}

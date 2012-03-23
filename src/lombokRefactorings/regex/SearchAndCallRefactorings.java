@@ -1,7 +1,5 @@
 package lombokRefactorings.regex;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -9,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import lombok.SneakyThrows;
+import lombokRefactorings.folderOptions.LombokTestRunner;
 import lombokRefactorings.refactorings.IRefactoringType;
 import lombokRefactorings.refactorings.RefactoringFactory;
 import lombokRefactorings.refactorings.Refactorings;
@@ -34,7 +33,6 @@ public class SearchAndCallRefactorings {
 	String source;
 	private ICompilationUnit iCompilationUnit;
 	private IType iType;
-	private final FileWriter writer;
 
 	/**
 	 * Setup method to initialize the project and source name, also sets the
@@ -44,13 +42,11 @@ public class SearchAndCallRefactorings {
 	 * @param sourceName
 	 * 
 	 * @author PeterB
-	 * @param writer 
 	 * 
 	 * @throws CoreException
 	 */
-	@SneakyThrows({CoreException.class, IOException.class})
-	public SearchAndCallRefactorings(String projectName, String sourceName, FileWriter writer) {
-		this.writer = writer;
+	@SneakyThrows(CoreException.class)
+	public SearchAndCallRefactorings(String projectName, String sourceName) {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = root.getProject(projectName);
 		project.open(null);
@@ -60,14 +56,8 @@ public class SearchAndCallRefactorings {
 		iCompilationUnit = iType.getCompilationUnit();
 		source = iCompilationUnit.getSource();
 		
-		if (writer != null) {
-			writer.write("====================================================\n");
-			writer.write("Working on " + iCompilationUnit.getPath().toString() + "\n");
-		}
-	}
-
-	public SearchAndCallRefactorings(String projectName, String sourceName) {
-		this(projectName, sourceName, null);
+		LombokTestRunner.logToFile("====================================================\n");
+		LombokTestRunner.logToFile("Working on " + iCompilationUnit.getPath().toString() + "\n");
 	}
 
 	/**
@@ -77,19 +67,19 @@ public class SearchAndCallRefactorings {
 	 * @author PeterB
 	 * @throws CoreException
 	 */
-	@SneakyThrows({CoreException.class, IOException.class})
+	@SneakyThrows(CoreException.class)
 	public void runRefactorings(List<String> refactoringTags) {
 		for (String tagName : refactoringTags) {
-			if (writer != null) writer.write(" - " + tagName);
+			LombokTestRunner.logToFile(" - " + tagName);
 			try {
 				RefactoringRequest request = new RefactoringRequest(tagName,iCompilationUnit);
 				if (request.getRefactoringName().equalsIgnoreCase("done") || request.getRefactoringName().toLowerCase().startsWith("failed")) {
-					if (writer != null) writer.write(" SKIPPED\n");
+					LombokTestRunner.logToFile(" SKIPPED\n");
 				} 
 				else {
 					IRefactoringType refactoring = RefactoringFactory.create(request.getRefactoringName());
 					refactoring.run(request);
-					writer.write("\n");
+					LombokTestRunner.logToFile("\n");
 				}
 			} 
 			catch (Exception e) {
@@ -97,7 +87,7 @@ public class SearchAndCallRefactorings {
 				e.printStackTrace(new PrintWriter(sw));
 				String stacktrace = sw.toString();
 				
-				if (writer != null) writer.write(" FAILED: " + stacktrace + "\n");
+				LombokTestRunner.logToFile(" FAILED: " + stacktrace + "\n");
 //				LombokPlugin.getDefault().getAstManager().addFailure(iCompilationUnit.getCorrespondingResource().getName(), "refactoring : NAME could not be executed.");
 				e.printStackTrace();
 			}

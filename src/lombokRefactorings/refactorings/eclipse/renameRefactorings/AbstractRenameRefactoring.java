@@ -1,14 +1,15 @@
 package lombokRefactorings.refactorings.eclipse.renameRefactorings;
 
+import lombokRefactorings.folderOptions.LombokTestRunner;
+import lombokRefactorings.refactorings.IRefactoringType;
+import lombokRefactorings.refactorings.RefactoringUtils;
+import lombokRefactorings.regex.RefactoringRequest;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ltk.core.refactoring.CheckConditionsOperation;
 import org.eclipse.ltk.core.refactoring.PerformRefactoringOperation;
 import org.eclipse.ltk.core.refactoring.Refactoring;
-
-import lombokRefactorings.refactorings.IRefactoringType;
-import lombokRefactorings.refactorings.RefactoringUtils;
-import lombokRefactorings.regex.RefactoringRequest;
 
 public abstract class AbstractRenameRefactoring implements IRefactoringType{
 	int targetStart;
@@ -25,6 +26,7 @@ public abstract class AbstractRenameRefactoring implements IRefactoringType{
 	protected void performRefactoring(Refactoring refactor) throws CoreException {
 		PerformRefactoringOperation op = new PerformRefactoringOperation(refactor, CheckConditionsOperation.ALL_CONDITIONS);
 		op.run(null);
+		LombokTestRunner.logResultToFile(op);
 	}
 	
 	protected String getNewName(RefactoringRequest request){

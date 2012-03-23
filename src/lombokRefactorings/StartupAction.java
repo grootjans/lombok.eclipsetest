@@ -1,7 +1,6 @@
 package lombokRefactorings;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import lombok.SneakyThrows;
@@ -29,7 +28,7 @@ public class StartupAction implements IStartup {
 	private static final String TEST_FOLDER = "test/simple";
 	private static final String HOST_FOLDER_NAME = "testNewProj";
 	
-	@SneakyThrows({CoreException.class, IOException.class})
+	@SneakyThrows({CoreException.class})
 	@Override public void earlyStartup() {
 		
 		try {
@@ -55,12 +54,7 @@ public class StartupAction implements IStartup {
 			if (!testFolder.exists()) testFolder.create(true, true, null);
 			moveTestsToProject(testFolder);
 			
-			File file = hostProject.getFile("lombokrefactor.log").getLocation().toFile();
-			FileWriter writer = new FileWriter(file);
-			
-			buildProjectsAndTest(testFolder, writer);
-			
-			writer.close();
+			buildProjectsAndTest(testFolder);
 		}
 		finally {
 			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
@@ -72,7 +66,7 @@ public class StartupAction implements IStartup {
 	}
 	
 	@SneakyThrows({CoreException.class, IOException.class})
-	public static void buildProjectsAndTest(IResource resource, FileWriter writer) {
+	public static void buildProjectsAndTest(IResource resource) {
 		LombokPlugin.getDefault().setAstManager(new AstManager());
 		ProjectManager projectManager = new ProjectManager();
 		
@@ -89,16 +83,17 @@ public class StartupAction implements IStartup {
 		LombokPlugin.getDefault().setFolderManager(folderManager);
 		LombokPlugin.getDefault().setProjectManager(projectManager);
 		
-		LombokTestRunner refactorThenDelombokRunner = LombokTestRunner.create(folderManager, TestTypes.BEFORE, writer);
+		LombokTestRunner refactorThenDelombokRunner = LombokTestRunner.create(folderManager, TestTypes.BEFORE);
 		refactorThenDelombokRunner.refactor(TestTypes.REFACTORED);
+		refactorThenDelombokRunner.close();
+		
 //		refactorThenDelombokRunner.delombok(TestTypes.REFACTORED_THEN_DELOMBOKED);
-
-//		LombokTestRunner delombokThenRefactorRunner = LombokTestRunner.create(folderManager, TestTypes.BEFORE, writer);
+//		LombokTestRunner delombokThenRefactorRunner = LombokTestRunner.create(folderManager, TestTypes.BEFORE);
 //		delombokThenRefactorRunner.delombok(TestTypes.DELOMBOKED);
 //		delombokThenRefactorRunner.refactor(TestTypes.DELOMBOKED_THEN_REFACTORED);
 		
-		copyResults(folderManager, TestTypes.REFACTORED_THEN_DELOMBOKED);
-		copyResults(folderManager, TestTypes.DELOMBOKED_THEN_REFACTORED);
+//		copyResults(folderManager, TestTypes.REFACTORED_THEN_DELOMBOKED);
+//		copyResults(folderManager, TestTypes.DELOMBOKED_THEN_REFACTORED);
 	}
 
 	public static void createAndFillLibFolder() throws IOException, CoreException{

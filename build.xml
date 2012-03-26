@@ -125,7 +125,7 @@
 		<delete>
 			<fileset dir="${eclipse.path}/plugins" includes="org.projectlombok.eclipsetests-*.jar"/>
 		</delete>
-		<copy file="org.projectlombok.eclipsetests-${plugin.version}.jar" todir="${eclipse.path}/plugins" />
+		<copy file="dist/org.projectlombok.eclipsetests-${plugin.version}.jar" todir="${eclipse.path}/plugins" />
 	</target>
 	
 	<target name="-test.quiet">

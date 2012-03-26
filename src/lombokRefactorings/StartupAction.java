@@ -11,6 +11,7 @@ import lombokRefactorings.projectOptions.ProjectCreator;
 import lombokRefactorings.projectOptions.ProjectManager;
 import lombokRefactorings.unitTestOptions.AstManager;
 
+import org.eclipse.core.internal.utils.FileUtil;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -20,6 +21,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.PlatformUI;
 
+import sun.misc.IOUtils;
+
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
 
@@ -28,7 +31,7 @@ public class StartupAction implements IStartup {
 	private static final String TEST_FOLDER = "test/simple";
 	private static final String HOST_FOLDER_NAME = "testNewProj";
 	
-	@SneakyThrows({CoreException.class})
+	@SneakyThrows({CoreException.class, IOException.class})
 	@Override public void earlyStartup() {
 		
 		try {
@@ -51,7 +54,12 @@ public class StartupAction implements IStartup {
 			}
 			
 			IFolder testFolder = hostProject.getFolder("test");
-			if (!testFolder.exists()) testFolder.create(true, true, null);
+			if (!testFolder.exists()) {
+				testFolder.create(true, true, null);
+			}
+			else {
+				Files.deleteDirectoryContents(testFolder.getLocation().toFile());
+			}
 			moveTestsToProject(testFolder);
 			
 			buildProjectsAndTest(testFolder);

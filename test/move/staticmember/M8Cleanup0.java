@@ -7,11 +7,11 @@ import lombok.*;
 public class M8Cleanup0 {
 	public static targetClass target = new targetClass();
 	
-	/*1: MoveStaticElement(field, target) :1*/
+	/*1: MoveStaticElements(field, target) :1*/
 	public static int a=0;
 	/*:1:*/
 	
-	/*2: MoveStaticElement(parameter, target) :2*/
+	/*2: MoveStaticElements(parameter, target) :2*/
 	public static int method(targetClass target) throws IOException {
 		@Cleanup
 		InputStream in = new FileInputStream("abc");

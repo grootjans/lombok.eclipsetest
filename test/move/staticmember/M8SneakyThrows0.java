@@ -4,11 +4,11 @@ import lombok.*;
 
 public class M8SneakyThrows0 {
 	public targetClass targetfield = new targetClass();
-	/*1: MoveStaticElement(field, targetfield) :1*/
+	/*1: MoveStaticElements(field, targetfield) :1*/
 	public static int a = method();
 	/*:1:*/
 	
-	/*2: MoveStaticElement(parameter, targetparam) :2*/
+	/*2: MoveStaticElements(parameter, targetparam) :2*/
 	@SneakyThrows
 	public static int method(targetClass targetparam){
 		return a;

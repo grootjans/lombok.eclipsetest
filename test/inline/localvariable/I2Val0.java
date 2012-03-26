@@ -6,7 +6,7 @@ public class I2Val0 {
 
 	public void method(){
 		String newName = "Roel S";
-		/*1: InlineLocalVariable (oldName) :1*/
+		/*1: InlineLocalVariable (greeting) :1*/
 		val greeting = new String("Hello "+newName);
 		/*:1:*/
 		System.out.println(greeting);

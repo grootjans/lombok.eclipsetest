@@ -15,7 +15,6 @@ public class I3Log0 {
 	public static int anotherMethod() {
 		String[] array = {"ABC"};
 		String warning = array[0];
-		/*:1:*/
 		log.warning(warning);
 		return array.length;
 	}

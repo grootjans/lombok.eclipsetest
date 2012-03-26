@@ -5,11 +5,11 @@ import lombok.*;
 @RequiredArgsConstructor
 public class M8ConAllArgs0 {
 	public targetClass targetfield;
-	/*1: MoveStaticElement(field, targetfield) :1*/
+	/*1: MoveStaticElements(field, targetfield) :1*/
 	public static int a = 0;
 	/*:1:*/
 	
-	/*2: MoveStaticElement(parameter, targetparam) :2*/
+	/*2: MoveStaticElements(parameter, targetparam) :2*/
 	public static int method(targetClass targetparam){
 		return a;
 	}

@@ -7,7 +7,7 @@ import java.util.logging.*;
 public class E0Log0 {
 	
 	/*1: ExtractConstant(5, CONSTANT) :1*/
-	public static int oldName = 0;
+	public static int oldName = 5;
 	/*:1:*/
 	
 	public static void main(String[] args) {

@@ -14,9 +14,9 @@ public class I1EqualsHash0 {
 		System.out.println(oldName);
 	}
 	public String anotherMethod(){
-		/*1: InlineLocalVariable (oldName) :1*/
-		String oldName="inlined";
-		/*:1:*/
+		/*2: InlineLocalVariable(oldName) :2*/
+		String oldName = "inlined";
+		/*:2:*/
 		return oldName;
 	}
 }

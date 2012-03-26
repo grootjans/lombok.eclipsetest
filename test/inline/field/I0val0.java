@@ -8,7 +8,7 @@ import lombok.*;
 
 public class I0val0 {
 	public int target = 0;
-	/*1: InlineField(target) :1*/
+	/*1: InlineField(method) :1*/
 	public int method() {
 	/*:1:*/
 		val map = new HashMap<Integer, Integer>();

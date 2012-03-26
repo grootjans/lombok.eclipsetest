@@ -3,7 +3,7 @@ import lombok.RequiredArgsConstructor;
 
 
 @RequiredArgsConstructor
-public class R2ConReqArgs0 {
+public class E2ConReqArgs0 {
 
 	public void someMethod(){
 		int oldName;

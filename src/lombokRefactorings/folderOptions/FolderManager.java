@@ -48,9 +48,9 @@ public class FolderManager {
 			copyTestsToBeforeFolder(resource);
 			
 			createSubFolders(folders.get(REFACTORED));
-			createSubFolders(folders.get(DELOMBOKED));
-			createSubFolders(folders.get(DELOMBOKED_THEN_REFACTORED));
-			createSubFolders(folders.get(REFACTORED_THEN_DELOMBOKED));
+//			createSubFolders(folders.get(DELOMBOKED));
+//			createSubFolders(folders.get(DELOMBOKED_THEN_REFACTORED));
+//			createSubFolders(folders.get(REFACTORED_THEN_DELOMBOKED));
 			
 			FileGenerator.correctPackageDeclarations(projectManager.getProject(TestTypes.BEFORE));
 			

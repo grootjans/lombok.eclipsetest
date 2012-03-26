@@ -3,7 +3,7 @@ import lombok.EqualsAndHashCode;
 
 
 @EqualsAndHashCode(exclude={"field"})
-public class R2EqualsHashParam {
+public class E2EqualsHashParam {
 
 	public void someMethod(){
 		int oldName;

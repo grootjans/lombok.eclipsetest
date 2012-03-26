@@ -2,7 +2,7 @@ package E2;
 
 import lombok.Getter;
 
-public class R2Getter0 {
+public class E2Getter0 {
 
 	@Getter int oldName = 1;
 	

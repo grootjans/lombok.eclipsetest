@@ -1,6 +1,6 @@
 package E2;
 
-public class R2Refactoring {
+public class E2Refactoring {
 	private int oldName=0;
 
 	public void someMethod() {

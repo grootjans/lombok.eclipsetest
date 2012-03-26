@@ -8,4 +8,5 @@
 /ivyCache
 /lib
 /testenviron.workspace
+/eclipselocation.properties
 *.class

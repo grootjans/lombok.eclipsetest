@@ -11,7 +11,6 @@ import lombokRefactorings.projectOptions.ProjectCreator;
 import lombokRefactorings.projectOptions.ProjectManager;
 import lombokRefactorings.unitTestOptions.AstManager;
 
-import org.eclipse.core.internal.utils.FileUtil;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -20,8 +19,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.PlatformUI;
-
-import sun.misc.IOUtils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;

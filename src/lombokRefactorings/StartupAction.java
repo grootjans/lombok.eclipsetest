@@ -25,7 +25,7 @@ import com.google.common.io.Files;
 
 public class StartupAction implements IStartup {
 	
-	private static final String TEST_FOLDER = "test/simple";
+	private static final String TEST_FOLDER = "test/";
 	private static final String HOST_FOLDER_NAME = "testNewProj";
 	
 	@SneakyThrows({CoreException.class, IOException.class})

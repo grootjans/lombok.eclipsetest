@@ -2,7 +2,7 @@ package E2;
 import lombok.*;
 
 
-public class R2LazyGetter {
+public class E2LazyGetter {
 	@Getter(lazy=true)
 	private final int oldName = 1;
 	public void someMethod(){

@@ -3,7 +3,7 @@ import lombok.NoArgsConstructor;
 
 
 @NoArgsConstructor
-public class R2ConNoArgs0 {
+public class E2ConNoArgs0 {
 
 	public void someMethod(){
 		int oldName;

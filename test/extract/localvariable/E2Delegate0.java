@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import lombok.Delegate;
 
-public class R2Delegate0 {
+public class E2Delegate0 {
 
 	@Delegate(types=SimpleCollection.class)
 	private final Collection<String> collection = new ArrayList<String>();

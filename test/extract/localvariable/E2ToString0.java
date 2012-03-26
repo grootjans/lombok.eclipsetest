@@ -2,7 +2,7 @@ package E2;
 import lombok.ToString;
 
 @ToString
-public class R2ToString0 {
+public class E2ToString0 {
 	public int oldName = 0;
 	
 	public static void main(String[] args) {

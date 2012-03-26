@@ -2,7 +2,7 @@ package E2;
 
 import lombok.Setter;
 
-public class R2Setter1 {
+public class E2Setter1 {
 
 	@Setter int name = 1;
 	

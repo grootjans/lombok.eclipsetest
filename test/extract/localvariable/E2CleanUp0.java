@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import lombok.Cleanup;
 
-public class R2CleanUp0 {
+public class E2CleanUp0 {
 	
 	
 	public void method() throws IOException {

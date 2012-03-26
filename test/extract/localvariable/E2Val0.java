@@ -2,7 +2,7 @@ package E2;
 
 import lombok.val;
 
-public class R2Val0 {
+public class E2Val0 {
 		public void someMethod(){
 			String oldName = "Able was I ere I saw Elba";
 			/*1: ExtractLocalVariable(newName) :1*/

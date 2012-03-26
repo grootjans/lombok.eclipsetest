@@ -4,7 +4,7 @@ import lombok.extern.java.Log;
 import java.util.logging.*;
 
 @Log
-public class R2Log0 {
+public class E2Log0 {
 	
 	public static void main(String[] args) {
 		int otherName = 0;

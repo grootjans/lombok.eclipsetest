@@ -236,7 +236,7 @@ public class CreateUnresolvedMethodType extends EditorBasedRefactoringType {
 	}
 	
 	public static void wait(int n) {
-		System.out.println("Waiting " + ((double) n) / 1000 + " seconds.");
+//		System.out.println("Waiting " + ((double) n) / 1000 + " seconds.");
 		long t0, t1;
 		t0 = System.currentTimeMillis();
 		do {

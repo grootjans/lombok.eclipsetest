@@ -25,7 +25,7 @@ public class InlineFieldType extends AbstractInlineRefactoring {
 		int length = targetMatcher.end() - start;
 		ICompilationUnit iCompilationUnit = request.getCompilationUnit();
 		
-		System.out.println(iCompilationUnit.getElementAt(start).getHandleIdentifier());
+//		System.out.println(iCompilationUnit.getElementAt(start).getHandleIdentifier());
 		//TODO also instance fields
 		InlineConstantRefactoring refactor = new InlineConstantRefactoring(
 				iCompilationUnit, RefactoringUtils.parse(iCompilationUnit),

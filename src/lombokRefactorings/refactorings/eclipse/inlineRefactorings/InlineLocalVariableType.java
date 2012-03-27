@@ -26,7 +26,7 @@ public class InlineLocalVariableType extends AbstractInlineRefactoring {
 		int selectionStart = targetMatch.start();
 		int selectionLength = targetMatch.end() - targetMatch.start();
 		
-		System.out.println(request.getCompilationUnit().getSource().substring(targetMatch.start()-10, targetMatch.end()+10));
+//		System.out.println(request.getCompilationUnit().getSource().substring(targetMatch.start()-10, targetMatch.end()+10));
 		
 		InlineTempRefactoring refactor = new InlineTempRefactoring(request.getCompilationUnit(), selectionStart, selectionLength);
 		

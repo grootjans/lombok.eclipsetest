@@ -23,12 +23,12 @@ public class RenameClassType extends AbstractRenameRefactoring {
 		RefactoringUtils.performRefactoring((new RenameRefactoring(processor)));
 		
 		
-		System.out.println();
-		System.out.println();
+//		System.out.println();
+//		System.out.println();
 		if(compilationUnit.getParent().getElementType() == IJavaElement.PACKAGE_FRAGMENT){
 			compilationUnit = ((IPackageFragment) compilationUnit.getParent()).getCompilationUnit(newName+".java");
 		}
-		System.out.println(compilationUnit);
-		System.out.println("Done");
+//		System.out.println(compilationUnit);
+//		System.out.println("Done");
 	}
 }

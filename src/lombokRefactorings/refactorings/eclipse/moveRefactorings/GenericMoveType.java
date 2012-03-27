@@ -36,7 +36,7 @@ public class GenericMoveType extends AbstractMoveRefactoring {
 //			processor.setReorgQueries(new ReorgQueries(wizard));
 			
 			IJavaElement destinationObj = iCompilationUnit.getJavaProject().findType("lombok.refactoring.tests.tt");
-			System.out.println(destinationObj.getPath());
+//			System.out.println(destinationObj.getPath());
 			IReorgDestination destination = ReorgDestinationFactory.createDestination(destinationObj);
 			
 //			processor.setDestination(destination);

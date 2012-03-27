@@ -121,11 +121,21 @@
 		</jar>
 	</target>
 
-	<target name="install-plugin" depends="plugin" description="Install the plugin jar - removes all existing plugin jars">
+	<target name="install" depends="plugin" description="Install the plugin jar - removes all existing plugin jars">
 		<delete>
 			<fileset dir="${eclipse.path}/plugins" includes="org.projectlombok.eclipsetests-*.jar"/>
 		</delete>
 		<copy file="dist/org.projectlombok.eclipsetests-${plugin.version}.jar" todir="${eclipse.path}/plugins" />
+	</target>
+	
+	<target name="uninstall">
+		<delete file="${eclipse.path}/plugins/org.projectlombok.eclipsetests-${plugin.version}.jar" />
+	</target>
+	
+	<target name="test" depends="install">
+		<exec executable="${eclipse.path}/eclipse">
+			<arg line="-data ./testenviron.workspace/ -product org.eclipse.sdk.ide" />
+		</exec>
 	</target>
 	
 	<target name="-test.quiet">

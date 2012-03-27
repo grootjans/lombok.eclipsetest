@@ -1,7 +1,5 @@
 package lombokRefactorings.regex;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -67,7 +65,6 @@ public class SearchAndCallRefactorings {
 	 * @author PeterB
 	 * @throws CoreException
 	 */
-	@SneakyThrows(CoreException.class)
 	public void runRefactorings(List<String> refactoringTags) {
 		for (String tagName : refactoringTags) {
 			LombokTestRunner.logToFile(" - " + tagName);
@@ -78,22 +75,22 @@ public class SearchAndCallRefactorings {
 				} 
 				else {
 					IRefactoringType refactoring = RefactoringFactory.create(request.getRefactoringName());
-					refactoring.run(request);
+						refactoring.run(request);
 					LombokTestRunner.logToFile("\n");
 				}
 			} 
 			catch (Exception e) {
-				StringWriter sw = new StringWriter();
-				e.printStackTrace(new PrintWriter(sw));
-				String stacktrace = sw.toString();
-				
-				LombokTestRunner.logToFile(" FAILED: " + stacktrace + "\n");
+				LombokTestRunner.logToFile(" REFACTOR FAILED: ", e);
 //				LombokPlugin.getDefault().getAstManager().addFailure(iCompilationUnit.getCorrespondingResource().getName(), "refactoring : NAME could not be executed.");
-				e.printStackTrace();
 			}
 		}
 		// Save the file to be on the safe side
-		iCompilationUnit.getWorkingCopy(null).commitWorkingCopy(true, null);
+		try {
+			iCompilationUnit.getWorkingCopy(null).commitWorkingCopy(true, null);
+		}
+		catch (CoreException e) {
+			LombokTestRunner.logToFile(" SAVE FAILED: ", e);
+		}
 	}
 
 	/**

@@ -3,6 +3,8 @@ package lombokRefactorings.folderOptions;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import lombok.SneakyThrows;
 import lombokRefactorings.TestTypes;
@@ -57,5 +59,12 @@ public class LombokTestRunner {
 	public static void logResultToFile(PerformRefactoringOperation op) {
 		logToFile(op.getConditionStatus() != null && op.getConditionStatus().hasError() ?
 					" FAILED: " + op.getConditionStatus().getEntryWithHighestSeverity().getMessage() : " OK");
+	}
+
+	public static void logToFile(String string, Exception e) {
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		String stacktrace = sw.toString();
+		logToFile(string + stacktrace);
 	}
 }

@@ -3,6 +3,8 @@ package lombokRefactorings.regex;
 import java.util.*;
 import java.util.regex.*;
 
+import lombok.SneakyThrows;
+
 public class RegexUtilities {
 	
 	/**
@@ -67,17 +69,14 @@ public class RegexUtilities {
 	 * @author MaartenT
 	 * @throws RegexNotFoundException
 	 */
+	@SneakyThrows(RegexNotFoundException.class)
 	public static Matcher findRegex(String regex, String source, int start,
 			int end) {
 		Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
 		Matcher matcher = pattern.matcher(source);
-		try {
-			matcher.region(start, end);
-			if (!matcher.find()) {
-				throw new RegexNotFoundException(regex);
-			}
-		} catch (RegexNotFoundException e) {
-			e.printStackTrace();
+		matcher.region(start, end);
+		if (!matcher.find()) {
+			throw new RegexNotFoundException(regex);
 		}
 
 		return matcher;

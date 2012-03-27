@@ -65,14 +65,7 @@ public class LombokPlugin extends AbstractUIPlugin {
 	}
 
 	public FolderManager getFolderManager() {
-		if (folderManager != null) {
-			return folderManager;
-		}
-		else {
-			System.err.println("Manager is null!");
-		}
-		
-		return null;
+		return folderManager;
 	}
 
 	public void setProjectManager(ProjectManager projectManager) {
@@ -80,14 +73,7 @@ public class LombokPlugin extends AbstractUIPlugin {
 	}
 
 	public ProjectManager getProjectManager() {
-		if (projectManager != null) {
-			return projectManager;
-		}
-		else {
-			System.err.println("Manager is null!");
-		}
-		
-		return null;
+		return projectManager;
 	}
 	
 	public void setAstManager(AstManager astManager) {
@@ -95,13 +81,6 @@ public class LombokPlugin extends AbstractUIPlugin {
 	}
 	
 	public AstManager getAstManager() {
-		if (astManager != null) {
-			return astManager;
-		}
-		else {
-			astManager = new AstManager();
-		}
-		
-		return null;
+		return astManager;
 	}
 }

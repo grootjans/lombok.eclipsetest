@@ -1,4 +1,4 @@
-package lombokRefactorings.unitTestOptions;
+package lombokRefactorings;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lombok.SneakyThrows;
 import lombok.ast.ecj.EcjTreePrinter;
 
 import org.eclipse.core.resources.IFile;
@@ -41,22 +42,13 @@ public class AstManager {
 		failedFilesMap.put(fileName, refactoringName);
 	}
 	
+	@SneakyThrows({JavaModelException.class, FileNotFoundException.class, CoreException.class, IOException.class})
 	public AstManager initializeMaps(IFolder refactoredThenDelombokedFolder, IFolder delombokedThenRefactoredFolder, IFolder expected) {
-		try {
-			fillAstMap(delombokedThenRefactoredAstMap, delombokedThenRefactoredFolder);
-			fillAstMap(delombokedThenRefactoredAstMap, expected);
-			fillAstMap(refactoredThenDelombokedAstMap, refactoredThenDelombokedFolder);
-			checkRefactoringFailedFilesMap();
-			return this;
-		} catch (JavaModelException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (CoreException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (IOException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
+		fillAstMap(delombokedThenRefactoredAstMap, delombokedThenRefactoredFolder);
+		fillAstMap(delombokedThenRefactoredAstMap, expected);
+		fillAstMap(refactoredThenDelombokedAstMap, refactoredThenDelombokedFolder);
+		checkRefactoringFailedFilesMap();
+		return this;
 	}
 	
 	private void fillAstMap(Map<String, String> astMap, IFolder folder) throws JavaModelException, FileNotFoundException, CoreException, IOException { 		
@@ -70,8 +62,7 @@ public class AstManager {
 		}
 	}
 	
-	private EcjTreePrinter createEcjTreePrinter(IResource resource)
-			throws JavaModelException, FileNotFoundException, IOException {
+	private EcjTreePrinter createEcjTreePrinter(IResource resource)	throws JavaModelException, FileNotFoundException, IOException {
 		ICompilationUnit refactorICompilationUnit = JavaCore.createCompilationUnitFrom((IFile)resource);
 		
 		CompilerOptions compilerOptions = createCompilerOptions();

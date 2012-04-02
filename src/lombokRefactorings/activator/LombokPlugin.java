@@ -1,8 +1,8 @@
 package lombokRefactorings.activator;
 
+import lombokRefactorings.AstManager;
 import lombokRefactorings.folderOptions.FolderManager;
 import lombokRefactorings.projectOptions.ProjectManager;
-import lombokRefactorings.unitTestOptions.AstManager;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;

@@ -9,7 +9,6 @@ import lombokRefactorings.folderOptions.FolderManager;
 import lombokRefactorings.folderOptions.LombokTestRunner;
 import lombokRefactorings.projectOptions.ProjectCreator;
 import lombokRefactorings.projectOptions.ProjectManager;
-import lombokRefactorings.unitTestOptions.AstManager;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;

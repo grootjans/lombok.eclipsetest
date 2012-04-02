@@ -35,9 +35,6 @@ public class RefactoringRequest {
 	private static final String OPENING_TAG_MIDDLE = ":(.*?):";
 	private static final String OPENING_TAG_SUFFIX = "\\s*?\\*/";
 
-	private static String openingTag;
-	private static String closingTag;
-
 	private final Matcher openingTagMatcher;
 	private final Matcher closingTagMatcher;
 
@@ -46,22 +43,18 @@ public class RefactoringRequest {
 	private final List<String> parameters;
 	private final ICompilationUnit iCompilationUnit;
 
-	public RefactoringRequest(String refactoringId,
-			ICompilationUnit iCompilationUnit) throws RegexNotFoundException,
-			CoreException {
+	public RefactoringRequest(String refactoringId,	ICompilationUnit iCompilationUnit) throws RegexNotFoundException, CoreException {
 		this.refactoringId = refactoringId;
 		this.iCompilationUnit = iCompilationUnit;
 
-		openingTag = OPENING_TAG_PREFIX + refactoringId + OPENING_TAG_MIDDLE
-				+ refactoringId + OPENING_TAG_SUFFIX;
-		closingTag = CLOSING_TAG_PREFIX + refactoringId + CLOSING_TAG_SUFFIX;
+		String openingTag = OPENING_TAG_PREFIX + refactoringId + OPENING_TAG_MIDDLE	+ refactoringId + OPENING_TAG_SUFFIX;
+		String closingTag = CLOSING_TAG_PREFIX + refactoringId + CLOSING_TAG_SUFFIX;
 
-		openingTagMatcher = findLocationsOpeningTag(openingTag);
-		closingTagMatcher = findLocationsClosingTag(closingTag);
+		this.openingTagMatcher = findLocationsOpeningTag(openingTag);
+		this.closingTagMatcher = findLocationsClosingTag(closingTag);
 
 		if (openingTagMatcher.group(1).trim().equalsIgnoreCase("done")
-				|| openingTagMatcher.group(1).trim().toLowerCase()
-						.startsWith("failed")) {
+				|| openingTagMatcher.group(1).trim().toLowerCase().startsWith("failed")) {
 			// Refactoring has been done or failed already
 			refactoringName = openingTagMatcher.group(1).trim();
 			parameters = null;
@@ -88,10 +81,8 @@ public class RefactoringRequest {
 	 * @throws JavaModelException
 	 * @throws RegexNotFoundException
 	 */
-	private Matcher findLocationsOpeningTag(String openingTag)
-			throws JavaModelException, RegexNotFoundException {
-		return RegexUtilities.findRegex(openingTag,
-				iCompilationUnit.getSource());
+	private Matcher findLocationsOpeningTag(String openingTag) throws JavaModelException, RegexNotFoundException {
+		return RegexUtilities.findRegex(openingTag,	iCompilationUnit.getSource());
 	}
 
 	/**
@@ -103,10 +94,8 @@ public class RefactoringRequest {
 	 * @throws JavaModelException
 	 * @throws RegexNotFoundException
 	 */
-	private Matcher findLocationsClosingTag(String closingTag)
-			throws JavaModelException, RegexNotFoundException {
-		return RegexUtilities.findRegex(closingTag,
-				iCompilationUnit.getSource());
+	private Matcher findLocationsClosingTag(String closingTag) throws JavaModelException, RegexNotFoundException {
+		return RegexUtilities.findRegex(closingTag,	iCompilationUnit.getSource());
 	}
 
 	public String getRefactoringName() {

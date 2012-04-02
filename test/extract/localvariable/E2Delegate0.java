@@ -16,7 +16,7 @@ public class E2Delegate0 {
 	}
 	public void someMethod(){
 		Collection<String> localCollection;
-		/*1: ExtractLocalVariable(newName) :1*/
+		/*1: ExtractLocalVariable(collection, newName) :1*/
 		localCollection = collection;
 		/*:1:*/
 	}

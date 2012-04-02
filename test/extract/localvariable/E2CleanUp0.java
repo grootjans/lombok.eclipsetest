@@ -10,7 +10,7 @@ public class E2CleanUp0 {
 	
 	public void method() throws IOException {
 		int oldName;
-		/*1: ExtractLocalVariable(newName) :1*/
+		/*1: ExtractLocalVariable(5, newName) :1*/
 		oldName = 5;
 		/*:1:*/
 		

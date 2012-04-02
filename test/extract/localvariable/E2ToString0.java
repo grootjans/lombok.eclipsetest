@@ -14,7 +14,7 @@ public class E2ToString0 {
 	
 	public void someMethod(){
 		int oldName;
-		/*1: ExtractLocalVariable(newName) :1*/
+		/*1: ExtractLocalVariable(this.oldName, newName) :1*/
 		oldName = this.oldName;
 		/*:1:*/
 	}

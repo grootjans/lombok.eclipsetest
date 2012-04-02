@@ -8,7 +8,7 @@ public class E2Setter0 {
 	
 	public void someMethod(){
 		int oldName;
-		/*1: ExtractLocalVariable(newName) :1*/
+		/*1: ExtractLocalVariable(this.name, newName) :1*/
 		oldName = this.name;
 		/*:1:*/
 		System.out.println(oldName);

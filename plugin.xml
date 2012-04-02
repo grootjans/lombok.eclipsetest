@@ -2,30 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="Refactor Test Action Set"
-            visible="true"
-            id="lombokRefactor.actionSet">
-         <menu
-               label="Refactor &amp;Test &amp;Menu"
-               id="refactorTestMenu">
-            <separator
-                  name="refactorTestGroup">
-            </separator>
-         </menu>
-         <action
-               label="&amp;Refactoring Action"
-               icon="icons/lombok.gif"
-               class="lombokRefactorings.actions.BuildRefactoringTests"
-               tooltip="Refactoring Test"
-               menubarPath="refactorTestMenu/refactorTestGroup"
-               toolbarPath="refactorTestGroup"
-               id="lombokRefactorings.actions.RunRefactoringTests">
-         </action>
-      </actionSet>
-   </extension>
-   <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="false"

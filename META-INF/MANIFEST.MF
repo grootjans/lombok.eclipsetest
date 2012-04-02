@@ -118,7 +118,6 @@ Export-Package: com.google.common.annotations,
  lombok.patcher.inject,
  lombok.patcher.scripts,
  lombokRefactorings,
- lombokRefactorings.actions;uses:="org.eclipse.jface.action,org.eclipse.ui,org.eclipse.jface.viewers",
  lombokRefactorings.activator;
   uses:="org.eclipse.jface.resource,
    lombokRefactorings.projectOptions,

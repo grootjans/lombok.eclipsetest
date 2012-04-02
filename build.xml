@@ -133,7 +133,7 @@
 	</target>
 	
 	<target name="test" depends="install">
-		<exec executable="${eclipse.path}/eclipse">
+		<exec dir="${eclipse.path}/" executable="${eclipse.path}/eclipse.exe">
 			<arg line="-data ./testenviron.workspace/ -product org.eclipse.sdk.ide" />
 		</exec>
 	</target>

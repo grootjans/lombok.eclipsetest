@@ -27,6 +27,7 @@
 	    file="eclipselocation.properties"
 	    comment="Enter your plugin host(eclipse) location here">
 		<entry key="eclipse.path" default="/usr/home/eclipse-helios-3.6.2/" />
+		<entry key="test.workspace.path" default="./testenviron.workspace/" />
 	</propertyfile>
 	<property file="eclipselocation.properties" />
 	
@@ -134,7 +135,7 @@
 	
 	<target name="test" depends="install">
 		<exec dir="${eclipse.path}/" executable="${eclipse.path}/eclipse.exe">
-			<arg line="-data ./testenviron.workspace/ -product org.eclipse.sdk.ide" />
+			<arg line="-data ${test.workspace.path} -product org.eclipse.sdk.ide" />
 		</exec>
 	</target>
 	

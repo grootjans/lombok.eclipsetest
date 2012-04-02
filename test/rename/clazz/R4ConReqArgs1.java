@@ -4,14 +4,12 @@ import lombok.RequiredArgsConstructor;
 
 
 @RequiredArgsConstructor
+/*1: RenameClass(R4ConReqArgs1_R) :1*/
 public class R4ConReqArgs1 {
+/*:1:*/
 
-	/*1: RenameClass(R4ConReqArgs01) :1*/
 	public final int oldName;
-	/*:1:*/
 
-	/*2: RenameClass(R4ConReqArgs1) :2*/
 	public int oldName2;
-	/*:2:*/
 	
 }

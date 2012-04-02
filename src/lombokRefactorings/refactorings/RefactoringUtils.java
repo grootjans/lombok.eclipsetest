@@ -89,7 +89,7 @@ public class RefactoringUtils {
 	}
 	
 	public static int[] getTargetStartAndLength(RefactoringRequest request) throws JavaModelException {
-		Matcher m = RegexUtilities.findRegex(request.getParameter(0), request.getCompilationUnit().getSource(), request.getOpeningTagMatcher().end(), request.getClosingTagMatcher().start());
+		Matcher m = findTarget(request);
 		int[] result = new int[2];
 		result[0] = m.start();
 		result[1] = m.end() - result[0];

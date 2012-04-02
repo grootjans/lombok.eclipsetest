@@ -3,9 +3,9 @@ import lombok.NoArgsConstructor;
 
 
 @NoArgsConstructor
+/*1: RenameClass(R4ConNoArgs0_R) :1*/
 public class R4ConNoArgs0 {
+/*:1:*/
 
-	/*1: RenameClass(R4ConNoArgs0) :1*/
 	public int oldName;
-	/*:1:*/
 }

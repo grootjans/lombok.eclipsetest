@@ -1,5 +1,7 @@
 package lombokRefactorings.refactorings.eclipse.extractRefactorings;
 
+import java.util.regex.Matcher;
+
 import lombokRefactorings.refactorings.RefactoringUtils;
 import lombokRefactorings.regex.RefactoringRequest;
 
@@ -20,6 +22,7 @@ public class ExtractLocalVariableType extends AbstractExtractRefactoring {
 	@Override
 	public void run(RefactoringRequest request) throws Exception {
 		//TODO: doesn't seem to work, check out why
+		
 		int start = request.getOpeningTagMatcher().end();
 		int length = request.getClosingTagMatcher().start();
 		ExtractTempRefactoring refactor= new ExtractTempRefactoring(request.getCompilationUnit(), start, length);

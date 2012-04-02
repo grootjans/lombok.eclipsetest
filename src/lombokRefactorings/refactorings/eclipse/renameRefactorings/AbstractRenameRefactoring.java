@@ -30,7 +30,7 @@ public abstract class AbstractRenameRefactoring implements IRefactoringType{
 	}
 	
 	protected String getNewName(RefactoringRequest request){
-		return request.getParameter(request.getParameters().size()-1);
+		return request.getParameter(request.getParameters().size() - 1);
 	}
 	
 	protected void setTargetStartAndLength(RefactoringRequest request) throws JavaModelException {

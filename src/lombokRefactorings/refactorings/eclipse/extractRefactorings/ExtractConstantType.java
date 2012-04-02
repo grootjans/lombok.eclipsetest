@@ -24,7 +24,7 @@ public class ExtractConstantType extends AbstractExtractRefactoring {
 			String newName = RefactoringUtils.getNewName(request);
 			Matcher targetMatch = RefactoringUtils.findTarget(request); 
 			int start = targetMatch.start();
-			int length = targetMatch.end()-start; 
+			int length = targetMatch.end() - start; 
 			
 			ExtractConstantRefactoring refactor = new ExtractConstantRefactoring(request.getCompilationUnit(), start, length);
 			refactor.setConstantName(newName);

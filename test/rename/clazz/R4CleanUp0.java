@@ -4,13 +4,12 @@ import java.io.*;
 import java.io.InputStream;
 
 import lombok.Cleanup;
-/*1: RenameClass(R4CleanUp0New) :1*/
+/*1: RenameClass(R4CleanUp0_R) :1*/
 public class R4CleanUp0 {
+/*:1:*/
 	
 	int oldName = 5;
-	/*:1:*/
-	/*2: RenameClass(R4ConAllArgs0) :2*/
-	/*:2:*/
+
 	public void method() throws IOException {
 		
 		@Cleanup

@@ -9,7 +9,7 @@ public class R0Data1 {
 	public final int oldName;
 	/*:1:*/
 	
-	/*2: RenameField(oldName, newfield) :2*/
+	/*2: RenameField(oldName2, newfield2) :2*/
 	public static int oldName2;
 	/*:2:*/
 

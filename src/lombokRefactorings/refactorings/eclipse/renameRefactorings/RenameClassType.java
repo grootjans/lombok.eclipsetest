@@ -16,19 +16,11 @@ public class RenameClassType extends AbstractRenameRefactoring {
 	public void run(RefactoringRequest request) throws Exception {
 		String newName = getNewName(request);
 		ICompilationUnit compilationUnit = request.getCompilationUnit();
-		// TODO test it
-		// TODO make it so that main type is renamed, in the stead of the first type in the list of getTypes() (this might be always the main type though, idk)
 		RenameTypeProcessor processor = new RenameTypeProcessor(compilationUnit.getTypes()[0]);
 		processor.setNewElementName(newName);
 		RefactoringUtils.performRefactoring((new RenameRefactoring(processor)));
-		
-		
-//		System.out.println();
-//		System.out.println();
 		if(compilationUnit.getParent().getElementType() == IJavaElement.PACKAGE_FRAGMENT){
-			compilationUnit = ((IPackageFragment) compilationUnit.getParent()).getCompilationUnit(newName+".java");
+			compilationUnit = ((IPackageFragment) compilationUnit.getParent()).getCompilationUnit(newName + ".java");
 		}
-//		System.out.println(compilationUnit);
-//		System.out.println("Done");
 	}
 }

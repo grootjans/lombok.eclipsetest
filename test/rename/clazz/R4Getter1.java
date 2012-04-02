@@ -1,13 +1,13 @@
 //ignore
 package R4;
 import lombok.*;
+/*1: RenameClass(R4Getter1_R) :1*/
 public class R4Getter1 {
+/*:1:*/
 	
 	
-	/*1: RenameClass(R4Getter1) :1*/
 	@Getter
 	public int oldName = 1;
-	/*:1:*/
 }
 
 class GetterUser {

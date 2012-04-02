@@ -5,7 +5,9 @@ import java.util.Collection;
 
 import lombok.Delegate;
 
+/*1: RenameClass(R4Delegate0_R) :1*/
 public class R4Delegate0 {
+/*:1:*/
 
 
 	private interface SimpleCollection {
@@ -14,9 +16,7 @@ public class R4Delegate0 {
 	}
 
 	@Delegate(types=SimpleCollection.class)
-	/*1: RenameClass(R4Delegate0) :1*/
 	private final Collection<String> collection = new ArrayList<String>();
-	/*:1:*/
 }
 
 

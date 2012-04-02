@@ -2,10 +2,11 @@ package R4;
 import lombok.ToString;
 
 @ToString
+/*1: RenameClass(R4ToString0_R) :1*/
 public class R4ToString0 {
-	/*1: RenameClass(R4ToString0New) :1*/
+/*:1:*/
+	
 	public int oldName = 0;
-	/*:1:*/
 	
 	public static void main(String[] args) {
 		

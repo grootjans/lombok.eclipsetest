@@ -53,7 +53,10 @@ public class LombokTestRunner {
 	
 	@SneakyThrows(IOException.class)
 	public static void logToFile(String s) {
-		if (writer != null) writer.write(s);
+		if (writer != null) {
+			writer.write(s);
+			writer.flush();
+		}
 	}
 
 	public static void logResultToFile(PerformRefactoringOperation op) {

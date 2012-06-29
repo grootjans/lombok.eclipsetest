@@ -7,8 +7,8 @@ public class E2LazyGetter {
 	private final int oldName = 1;
 	public void someMethod(){
 		int oldName;
-		/*1: ExtractLocalVariable(newName) :1*/
-		oldName = 3+3;
+		/*1: ExtractLocalVariable(5, newName) :1*/
+		oldName = 5;
 		/*:1:*/
 		System.out.println(oldName);
 	}

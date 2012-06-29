@@ -20,8 +20,8 @@ public class M1val0 {
 	}
 	
 	/*2: MoveInstanceMethod(parameter, target) :2*/
-	public int method(targetClass target) {
-		/*:1:*/
+	public int method2(targetClass target) {
+		/*:2:*/
 		val map = new HashMap<Integer, targetClass>();
 		map.put(0, this.target);
 		map.put(5, this.target);

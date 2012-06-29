@@ -12,7 +12,7 @@ public class M1Delegate0 {
 	}
 	
 	/*2: MoveInstanceMethod(parameter, target) :2*/
-	public targetClass[] method(targetClass target){
+	public targetClass[] method2(targetClass target){
 		targetClass[] array = {this.target, target};
 		return array;
 	}

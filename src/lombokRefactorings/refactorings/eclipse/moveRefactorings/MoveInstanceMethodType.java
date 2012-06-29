@@ -52,13 +52,13 @@ public class MoveInstanceMethodType extends AbstractMoveRefactoring {
 
 	@Override
 	public void run(RefactoringRequest request) throws Exception {
-		String targetType = request.getParameter(1);
-		String targetName = request.getParameter(2);
+		String targetType = request.getParameter(0);
+		String targetName = request.getParameter(1);
 		ICompilationUnit iCompilationUnit = request.getCompilationUnit();
 		int firstChar = RegexUtilities.findRegex("\\s*?([^\\s])",
 				iCompilationUnit.getSource(),
-				request.getOpeningTagMatcher().end(1),
-				request.getClosingTagMatcher().start(1)).start();
+				request.getOpeningTagMatcher().end(),
+				request.getClosingTagMatcher().start()).start();
 		IMethod method;
 		method = (IMethod) iCompilationUnit.getElementAt(firstChar);
 		CodeGenerationSettings settings = JavaPreferencesSettings

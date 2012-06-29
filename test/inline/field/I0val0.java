@@ -7,10 +7,10 @@ import java.util.HashMap;
 import lombok.*;
 
 public class I0val0 {
-	public int target = 0;
-	/*1: InlineField(method) :1*/
-	public int method() {
+	/*1: InlineField(target) :1*/
+	static final val target = 42;
 	/*:1:*/
+	public int method() {
 		val map = new HashMap<Integer, Integer>();
 		map.put(0, target);
 		for (val entry : map.entrySet()) {

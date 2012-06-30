@@ -12,7 +12,7 @@ public class M1Log0 {
 	}
 	
 	/*2: MoveInstanceMethod(parameter, target) :2*/
-	public void method(targetClass target){
+	public void method2(targetClass target){
 		log.warning("Oh no");
 	}
 	/*:2:*/

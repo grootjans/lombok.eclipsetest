@@ -11,7 +11,7 @@ public class M1Setter0 {
 	}
 	
 	/*2: MoveInstanceMethod(parameter, target) :2*/
-	public void method(targetClass target){		
+	public void method2(targetClass target){		
 	}
 	/*:2:*/
 	class targetClass{

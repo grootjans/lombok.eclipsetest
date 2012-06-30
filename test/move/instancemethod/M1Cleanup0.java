@@ -25,7 +25,7 @@ public class M1Cleanup0 {
 	}
 	
 	/*2: MoveInstanceMethod(parameter, target) :2*/
-	public int method(targetClass target) throws IOException {
+	public int method2(targetClass target) throws IOException {
 		@Cleanup
 		InputStream in = new FileInputStream("abc");
 		@Cleanup

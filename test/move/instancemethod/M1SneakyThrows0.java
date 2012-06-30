@@ -12,7 +12,7 @@ public class M1SneakyThrows0 {
 	
 	/*2: MoveInstanceMethod(parameter, target) :2*/
 	@SneakyThrows
-	public void method(targetClass target){		
+	public void method2(targetClass target){		
 	}
 	/*:2:*/
 	class targetClass{

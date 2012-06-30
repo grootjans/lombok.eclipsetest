@@ -7,7 +7,7 @@ public class R12OnMethod1 {
 	@Getter int name = 1;
 	
 	@Deprecated
-	/*1: RenameNonVirtualMethod(getSomething) :1*/
+	/*1: RenameNonVirtualMethod(getName, getSomething) :1*/
 	private int getName(){
 		return name;
 	}

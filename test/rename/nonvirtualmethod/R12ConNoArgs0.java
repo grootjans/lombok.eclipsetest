@@ -7,7 +7,7 @@ public class R12ConNoArgs0 {
 
 	int oldName = 0;
 	
-	/*1: RenameNonVirtualMethod(newMethodName) :1*/
+	/*1: RenameNonVirtualMethod(method, newMethodName) :1*/
 	private void method(){
 		
 	}

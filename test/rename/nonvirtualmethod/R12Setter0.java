@@ -6,7 +6,7 @@ public class R12Setter0 {
 
 	@Setter int field = 0;
 	
-	/*1: RenameNonVirtualMethod(newMethodName) :1*/
+	/*1: RenameNonVirtualMethod(setField, setNewField) :1*/
 	private void setField(int newField) {
 		
 		this.field = newField;

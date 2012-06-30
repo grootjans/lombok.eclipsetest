@@ -6,7 +6,7 @@ import lombok.Cleanup;
 
 public class R12CleanUp0 {
 	
-	/* 1: RenameNonVirtualMethod(newMethodName) :1 */
+	/* 1: RenameNonVirtualMethod(main, newMethodName) :1 */
 	private static void main(String[] args) throws IOException {
 		@Cleanup
 		InputStream in = new FileInputStream(args[0]);

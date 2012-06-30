@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 public class R12SneakyThrows0 {
 
 	
-	/*1: RenameNonVirtualMethod(newGo) :1*/
+	/*1: RenameNonVirtualMethod(go, newGo) :1*/
 	@SneakyThrows
 	private void go() {
 		

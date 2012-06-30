@@ -7,7 +7,7 @@ public class R12ToString {
 
 	int field = 0;
 	
-	/*1: RenameNonVirtualMethod(newMethodName) :1*/
+	/*1: RenameNonVirtualMethod(method, newMethodName) :1*/
 	private String method(){
 		return "The value of my field is " + field;
 	}

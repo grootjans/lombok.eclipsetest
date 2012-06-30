@@ -9,7 +9,7 @@ public class R12Delegate0 {
 
 
 	private interface SimpleCollection {
-		/*1: RenameNonVirtualMethod(newName) :1*/
+		/*1: RenameNonVirtualMethod(add, newName) :1*/
 		boolean add(String item);
 		/*:1:*/
 		boolean remove(Object item);

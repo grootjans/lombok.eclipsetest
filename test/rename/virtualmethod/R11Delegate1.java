@@ -10,7 +10,7 @@ public class R11Delegate1 {
 
 	public interface SimpleCollection {
 		boolean add(String item);
-		/*1: RenameVirtualMethod(contains) :1*/
+		/*1: RenameVirtualMethod(remove, contains) :1*/
 		boolean remove(Object o);
 		/*:1:*/
 	}

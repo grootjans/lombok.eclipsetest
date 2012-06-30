@@ -9,7 +9,7 @@ public class R11Delegate0 {
 
 
 	public interface SimpleCollection {
-		/*1: RenameVirtualMethod(newName) :1*/
+		/*1: RenameVirtualMethod(add, newName) :1*/
 		boolean add(String item);
 		/*:1:*/
 		boolean remove(Object item);

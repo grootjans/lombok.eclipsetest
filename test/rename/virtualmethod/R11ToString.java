@@ -7,7 +7,7 @@ public class R11ToString {
 
 	int field = 0;
 	
-	/*1: RenameVirtualMethod(newMethodName) :1*/
+	/*1: RenameVirtualMethod(method, newMethodName) :1*/
 	public String method(){
 		return "The value of my field is " + field;
 	}

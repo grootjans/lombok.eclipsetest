@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class R11Data0 {
 
-	/*1: RenameVirtualMethod(toString) :1*/
+	/*1: RenameVirtualMethod(method, newMethodName) :1*/
 	public String method() {
 		
 		return "Tralalala";

@@ -3,15 +3,14 @@ package move.moveStaticMember;
 import lombok.*;
 
 public class M8Getter0 {
-	public targetClass targetfield = new targetClass();
-	/*1: MoveStaticElements(field, targetfield) :1*/
+	/*1: MoveStaticElements(a6, targetClass) :1*/
 	@Getter
-	public static int a = 0;
+	public static int a6 = 0;
 	/*:1:*/
 	
-	/*2: MoveStaticElements(parameter, targetparam) :2*/
-	public static int method(targetClass targetparam){
-		return a;
+	/*2: MoveStaticElements(method6, targetClass) :2*/
+	public static int method6(targetClass targetparam){
+		return a6;
 	}
 	/*:2:*/
 }

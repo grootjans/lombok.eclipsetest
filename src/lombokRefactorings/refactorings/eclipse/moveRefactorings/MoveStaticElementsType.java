@@ -10,7 +10,6 @@ import lombokRefactorings.regex.RegexUtilities;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMember;
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.internal.corext.codemanipulation.CodeGenerationSettings;
 import org.eclipse.jdt.internal.corext.refactoring.structure.MoveStaticMembersProcessor;
 import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
@@ -28,6 +27,7 @@ public class MoveStaticElementsType extends AbstractMoveRefactoring{
 		CodeGenerationSettings settings = JavaPreferencesSettings.getCodeGenerationSettings(request.getCompilationUnit().getJavaProject());
 		
 		ICompilationUnit iCompilationUnit = request.getCompilationUnit();
+
 		int firstChar = RegexUtilities.findRegex("\\s*?([^\\s])",
 				iCompilationUnit.getSource(),
 				request.getOpeningTagMatcher().end(),
@@ -35,7 +35,7 @@ public class MoveStaticElementsType extends AbstractMoveRefactoring{
 		IMember member = (IMember) iCompilationUnit.getElementAt(firstChar);
 		
 		MoveStaticMembersProcessor processor = new MoveStaticMembersProcessor(new IMember[] {member}, settings);
-		processor.setDestinationTypeFullyQualifiedName(request.getParameter(0));
+		processor.setDestinationTypeFullyQualifiedName(request.getParameter(1));
 		processor.checkInitialConditions(new NullProgressMonitor());
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
 		RefactoringUtils.performRefactoring(refactoring);

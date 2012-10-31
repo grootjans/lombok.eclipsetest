@@ -100,47 +100,38 @@ public class FileGenerator {
 	 */
 	private static void refactorFilesInFolder(IFolder inputFolder, IFolder parent, IFolder outputFolder) throws CoreException, IOException,
 			JavaModelException {
-		for (IResource inputResource :inputFolder.members()) {
+		for (IResource inputResource : inputFolder.members()) {
 			
-			if (inputResource.getClass().getSimpleName().equals("Folder")) {
-				for (IResource outputResource :outputFolder.members()) {
-					if (outputResource.getClass().getSimpleName().equals("Folder") &&
-							inputResource.getName().equals(outputResource.getName())) {
+			if (inputResource.getType() == IResource.FOLDER) {
+				for (IResource outputResource : outputFolder.members()) {
+					if (outputResource.getType() == IResource.FOLDER && inputResource.getName().equals(outputResource.getName())) {
 						refactorFilesInFolder((IFolder) inputResource, parent, (IFolder) outputResource);
 					}
 				}
 			}
 			else {
 				ICompilationUnit iCompilationUnit = JavaCore.createCompilationUnitFrom((IFile)inputResource);
-				
-				File outputFile = null;
-				String sourceName = null;
-				
-				if (inputFolder.getName().equals(outputFolder.getName())) {
-					String name = outputFolder.getProjectRelativePath().toString() + "." + inputResource.getName();
-					name = name.replaceAll("/", ".");
-					name = name.substring(0, name.lastIndexOf(".java"));
-					name = name.substring(4);
-					sourceName = name;
-					outputFile = new File(outputFolder.getRawLocation().toFile(), inputResource.getName());
-				}
-				if (inputFolder.getName().equals(outputFolder.getName())) {
-					String name = outputFolder.getProjectRelativePath().toString() + "." + inputResource.getName();
-					name = name.replaceAll("/", ".");
-					name = name.substring(0, name.lastIndexOf(".java"));
-					name = name.substring(4);
-					sourceName = name;
-					outputFile = new File(outputFolder.getRawLocation().toFile(), inputResource.getName());
-				}
-				
-				FileWriter outputWriter = new FileWriter(outputFile);
-				
-				outputWriter.write(iCompilationUnit.getSource());
-				
-				outputWriter.close();
 
-				projectManager.refreshProjects();
+				if (inputFolder.getName().equals(outputFolder.getName())) {
+					File outputFile = new File(outputFolder.getRawLocation().toFile(), inputResource.getName());
+
+					FileWriter outputWriter = new FileWriter(outputFile);
+					outputWriter.write(iCompilationUnit.getSource());
+					outputWriter.close();
+				}
+			}
+		}
+		
+		projectManager.refreshProjects();
+		
+		for (IResource inputResource : inputFolder.members()) {
+			if (inputResource.getType() == IResource.FILE && inputFolder.getName().equals(outputFolder.getName())) {
+				String sourceName = outputFolder.getProjectRelativePath().toString() + "." + inputResource.getName();
 				
+				sourceName = sourceName.replaceAll("/", ".")
+					.substring(0, sourceName.lastIndexOf(".java"))
+					.substring(4);				// to strip off "src"
+			
 				String projectName = outputFolder.getProject().getName();
 				
 				SearchAndCallRefactorings searchAndCallRefactorings = new SearchAndCallRefactorings(projectName, sourceName);

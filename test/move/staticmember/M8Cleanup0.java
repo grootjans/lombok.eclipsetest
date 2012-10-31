@@ -5,13 +5,11 @@ import lombok.*;
 
 @Data
 public class M8Cleanup0 {
-	public static targetClass target = new targetClass();
-	
-	/*1: MoveStaticElements(field, target) :1*/
-	public static int a=0;
+	/*1: MoveStaticElements(a, targetClass) :1*/
+	public static int a = 0;
 	/*:1:*/
 	
-	/*2: MoveStaticElements(parameter, target) :2*/
+	/*2: MoveStaticElements(method, targetClass) :2*/
 	public static int method(targetClass target) throws IOException {
 		@Cleanup
 		InputStream in = new FileInputStream("abc");

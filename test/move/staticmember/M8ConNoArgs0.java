@@ -4,14 +4,13 @@ import lombok.*;
 
 @NoArgsConstructor
 public class M8ConNoArgs0 {
-	public targetClass targetfield = new targetClass();
-	/*1: MoveStaticElements(field, targetfield) :1*/
-	public static int a = 0;
+	/*1: MoveStaticElements(a2, targetClass) :1*/
+	public static int a2 = 0;
 	/*:1:*/
 	
-	/*2: MoveStaticElements(parameter, targetparam) :2*/
-	public static int method(targetClass targetparam){
-		return a;
+	/*2: MoveStaticElements(method2, targetClass) :2*/
+	public static int method2(targetClass targetparam){
+		return a2;
 	}
 	/*:2:*/
 }

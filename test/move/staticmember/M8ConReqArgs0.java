@@ -4,14 +4,13 @@ import lombok.*;
 
 @RequiredArgsConstructor
 public class M8ConReqArgs0 {
-	public targetClass targetfield;
-	/*1: MoveStaticElements(field, targetfield) :1*/
-	public static int a = 0;
+	/*1: MoveStaticElements(a3, targetClass) :1*/
+	public static int a3 = 0;
 	/*:1:*/
 	
-	/*2: MoveStaticElements(parameter, targetparam) :2*/
-	public static int method(targetClass targetparam){
-		return a;
+	/*2: MoveStaticElements(method3, targetClass) :2*/
+	public static int method3(targetClass targetparam){
+		return a3;
 	}
 	/*:2:*/
 }

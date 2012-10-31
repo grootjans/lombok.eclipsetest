@@ -47,8 +47,7 @@ public class SearchAndCallRefactorings {
 	public SearchAndCallRefactorings(String projectName, String sourceName) {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = root.getProject(projectName);
-		project.open(null);
-
+		
 		IJavaProject javaProject = JavaCore.create(project);
 		iType = javaProject.findType(sourceName);
 		iCompilationUnit = iType.getCompilationUnit();
